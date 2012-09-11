@@ -21,11 +21,11 @@ import java.awt.*;
 @Manifest(
         name = "HR Fisher",
         description = "Fishes in many different locations with many features.",
-        authors = "H3avY Ra1n"
+        authors = "H3avY Ra1n",
+        version = 1.0,
+        topic = 793227
 )
 
-// Create a strategy to be run when gui is finished, and revoke afterwards
-// used to turn on/off banking and powerfishing
 public class HRFisher extends ActiveScript implements PaintListener, MessageListener {
 
     @Override
