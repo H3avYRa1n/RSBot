@@ -17,9 +17,10 @@
         + FIXED: Scriptnot working if items were in toolbelt.
         + ADDED: Option to fish at shark spots of swordfish spots if harpooning
 
-    September 16, 2012 - v1.1.2 -
+    September 16, 2012 - v1.2 -
         + ADDED: Dropping random event items
         + ADDED: Piscatoris Fishing Colony spot
+        + ADDED: Barbarian Assault spot
  */
 
 package hr_fisher;
@@ -42,7 +43,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 @Manifest(
-        name = "HR Fisher v1.1.1",
+        name = "HR Fisher v1.2",
         description = "Fishes almost all types of fish in many different locations.",
         authors = "H3avY Ra1n",
         version = 1.1,
