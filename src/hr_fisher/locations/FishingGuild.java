@@ -20,13 +20,12 @@ public class FishingGuild extends Location {
     public static final Util.FishingTypes[] TYPES_AVAILABLE = new Util.FishingTypes[]{
             Util.FishingTypes.TYPE_NET,
             Util.FishingTypes.TYPE_LOBSTER_CAGE,
-            Util.FishingTypes.TYPE_HARPOON
+            Util.FishingTypes.TYPE_HARPOON_TUNA,
+            Util.FishingTypes.TYPE_HARPOON_SHARK
     };
 
-    public static final int[] FISHING_SPOT_IDS = new int[]{312, 313};
-
     public FishingGuild() {
-        super(TILES_TO_BANK, TYPES_AVAILABLE, FISHING_SPOT_IDS, "Fishing Guild");
+        super(TILES_TO_BANK, TYPES_AVAILABLE, "Fishing Guild");
     }
 
 

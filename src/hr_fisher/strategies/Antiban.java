@@ -9,6 +9,7 @@ package hr_fisher.strategies;/*
 
 import hr_fisher.user.Variables;
 import org.powerbot.concurrent.strategy.Strategy;
+import org.powerbot.game.api.methods.Game;
 import org.powerbot.game.api.methods.Tabs;
 import org.powerbot.game.api.methods.Widgets;
 import org.powerbot.game.api.methods.input.Mouse;
@@ -16,6 +17,7 @@ import org.powerbot.game.api.methods.interactive.NPCs;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.tab.Skills;
 import org.powerbot.game.api.methods.widget.Camera;
+import org.powerbot.game.api.util.Filter;
 import org.powerbot.game.api.util.Random;
 import org.powerbot.game.api.util.Time;
 import org.powerbot.game.api.util.Timer;
@@ -57,6 +59,7 @@ public class Antiban extends Strategy implements Runnable {
                 break;
             case 2:
                 Camera.setAngle(Camera.getYaw() + Random.nextInt(-100, 100));
+                break;
         }
 
         timer.setEndIn(Random.nextInt(minTime, maxTime));
@@ -64,7 +67,19 @@ public class Antiban extends Strategy implements Runnable {
 
     @Override
     public boolean validate() {
-        NPC fishingSpot = NPCs.getNearest(Variables.chosenLocation.getFishingSpotIDs());
+
+        NPC fishingSpot = NPCs.getNearest(new Filter<NPC>() {
+            public boolean accept(NPC npc) {
+                String[] actions = npc.getActions();
+                for(String s : actions) {
+                    if( s != null && s.contains(Variables.chosenFishingType.getInteractString())) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        });
 
         return Variables.hasStarted
                 && !timer.isRunning()

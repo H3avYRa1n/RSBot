@@ -7,12 +7,14 @@ package hr_fisher.locations;/*
     
 */
 
+import hr_fisher.user.Variables;
 import org.powerbot.concurrent.strategy.Condition;
 import org.powerbot.game.api.methods.Calculations;
 import org.powerbot.game.api.methods.Walking;
 import org.powerbot.game.api.methods.interactive.NPCs;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.node.SceneEntities;
+import org.powerbot.game.api.util.Filter;
 import org.powerbot.game.api.util.Time;
 import org.powerbot.game.api.wrappers.Tile;
 import org.powerbot.game.api.wrappers.interactive.NPC;
@@ -40,14 +42,12 @@ public class Lumbridge extends Location {
             Util.FishingTypes.TYPE_FLY
     };
 
-    public static final int[] FISHING_SPOT_IDS = new int[]{329};
-
     public static final int BOTTOM_LADDER_ID = 36773;
     public static final int MIDDLE_LADDER_ID = 36774;
     public static final int TOP_LADDER_ID = 36775;
 
     public Lumbridge() {
-        super(TILES_LADDER_TO_BANK, TYPES_AVAILABLE, FISHING_SPOT_IDS, "Lumbridge");
+        super(TILES_LADDER_TO_BANK, TYPES_AVAILABLE, "Lumbridge");
     }
 
     @Override
@@ -93,7 +93,18 @@ public class Lumbridge extends Location {
     @Override
     public void walkToFishingSpot() {
 
-        NPC fishingSpot = NPCs.getNearest(fishingSpotIDs);
+        NPC fishingSpot = NPCs.getNearest(new Filter<NPC>() {
+            public boolean accept(NPC npc) {
+                String[] actions = npc.getActions();
+                for(String s : actions) {
+                    if( s != null && s.contains(Variables.chosenFishingType.getInteractString())) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        });
 
         if(fishingSpot != null && fishingSpot.isOnScreen() && Calculations.distanceTo(fishingSpot) < 10) {
             return;

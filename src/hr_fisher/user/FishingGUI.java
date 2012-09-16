@@ -1,5 +1,6 @@
 package hr_fisher.user;
 
+import hr_fisher.locations.BarbarianAssault;
 import hr_fisher.locations.Karamja;
 import hr_fisher.locations.Karamja;
 import org.powerbot.game.api.methods.tab.Skills;
@@ -97,6 +98,20 @@ public class FishingGUI extends JFrame {
             stilesRadioButton.setEnabled(false);
         }
 
+        if(Variables.locations[locationComboBox.getSelectedIndex()] instanceof BarbarianAssault) {
+            if(bankRadioButton.isSelected())
+            {
+                powerFishRadioButton.setSelected(true);
+            }
+
+            bankRadioButton.setSelected(false);
+            bankRadioButton.setEnabled(false);
+
+        } else if(!bankRadioButton.isEnabled()) {
+
+            bankRadioButton.setEnabled(true);
+        }
+
         dropTunaCheckBox.setSelected(false);
         dropTunaCheckBox.setEnabled(false);
 
@@ -104,7 +119,7 @@ public class FishingGUI extends JFrame {
 
     private void typeBoxChanged(ItemEvent e) {
         Util.FishingTypes chosenFishingType = Variables.locations[locationComboBox.getSelectedIndex()].getFishingTypes()[typeComboBox.getSelectedIndex()];
-        if(chosenFishingType != Util.FishingTypes.TYPE_HARPOON) {
+        if(chosenFishingType != Util.FishingTypes.TYPE_HARPOON_TUNA) {
             dropTunaCheckBox.setSelected(false);
             dropTunaCheckBox.setEnabled(false);
         } else {
@@ -135,7 +150,7 @@ public class FishingGUI extends JFrame {
         Container contentPane = getContentPane();
 
         //---- headerLabel ----
-        headerLabel.setText("AIO Fisher v1.0");
+        headerLabel.setText("AIO Fisher v1.1.1");
         headerLabel.setHorizontalAlignment(SwingConstants.CENTER);
         headerLabel.setFont(headerLabel.getFont().deriveFont(headerLabel.getFont().getSize() + 4f));
 

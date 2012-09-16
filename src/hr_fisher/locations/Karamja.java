@@ -15,6 +15,7 @@ import org.powerbot.game.api.methods.interactive.NPCs;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.node.SceneEntities;
 import org.powerbot.game.api.methods.widget.Camera;
+import org.powerbot.game.api.util.Filter;
 import org.powerbot.game.api.util.Time;
 import org.powerbot.game.api.wrappers.Area;
 import org.powerbot.game.api.wrappers.Tile;
@@ -55,10 +56,8 @@ public class Karamja extends Location {
 
     public static final Util.FishingTypes[] TYPES_AVAILABLE = new Util.FishingTypes[]{
             Util.FishingTypes.TYPE_LOBSTER_CAGE,
-            Util.FishingTypes.TYPE_HARPOON
+            Util.FishingTypes.TYPE_HARPOON_TUNA
     };
-
-    public static final int[] FISHING_SPOT_IDS = new int[]{324};
 
     public static final Area PORT_SARIM_AREA = new Area(
             new Tile(3099, 3231, 0),
@@ -80,7 +79,7 @@ public class Karamja extends Location {
 
 
     public Karamja() {
-        super(TILES_PORT_SARIM_TO_BANK, TYPES_AVAILABLE, FISHING_SPOT_IDS, "Karamja");
+        super(TILES_PORT_SARIM_TO_BANK, TYPES_AVAILABLE, "Karamja");
     }
 
     @Override
@@ -158,7 +157,18 @@ public class Karamja extends Location {
     @Override
     public void walkToFishingSpot() {
 
-        NPC fishingSpot = NPCs.getNearest(fishingSpotIDs);
+        NPC fishingSpot = NPCs.getNearest(new Filter<NPC>() {
+            public boolean accept(NPC npc) {
+                String[] actions = npc.getActions();
+                for(String s : actions) {
+                    if( s != null && s.contains(Variables.chosenFishingType.getInteractString())) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        });
 
         if(fishingSpot != null && fishingSpot.isOnScreen() && Calculations.distanceTo(fishingSpot) < 10) {
             return;
@@ -183,7 +193,18 @@ public class Karamja extends Location {
         } else if (Karamja.KARAMJA_AREA.contains(Players.getLocal().getLocation())) {
             TilePath pathToFishingSpot = new TilePath(Karamja.TILES_DOCK_TO_FISHING_SPOT);
 
-            NPC closestFishingSpot = NPCs.getNearest(Variables.chosenLocation.getFishingSpotIDs());
+            NPC closestFishingSpot = NPCs.getNearest(new Filter<NPC>() {
+                public boolean accept(NPC npc) {
+                    String[] actions = npc.getActions();
+                    for(String s : actions) {
+                        if( s != null && s.contains(Variables.chosenFishingType.getInteractString())) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                }
+            });
 
             if (Calculations.distanceTo(pathToFishingSpot.getEnd()) < 10 && !closestFishingSpot.isOnScreen()) {
 

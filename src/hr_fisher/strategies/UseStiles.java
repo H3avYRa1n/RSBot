@@ -16,6 +16,7 @@ import org.powerbot.game.api.methods.Walking;
 import org.powerbot.game.api.methods.interactive.NPCs;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.tab.Inventory;
+import org.powerbot.game.api.methods.widget.DepositBox;
 import org.powerbot.game.api.util.Time;
 import org.powerbot.game.api.wrappers.interactive.NPC;
 import org.powerbot.game.api.wrappers.map.TilePath;
@@ -61,6 +62,8 @@ public class UseStiles extends Strategy implements Runnable {
 
     @Override
     public boolean validate() {
+        if(DepositBox.isOpen())
+            return false;
         return Inventory.isFull();
     }
 }

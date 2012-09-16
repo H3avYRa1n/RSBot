@@ -20,21 +20,15 @@ public class Location {
     public Tile[] tilesToBank;
     public Util.FishingTypes[] fishingTypes;
     public String locationName;
-    public int[] fishingSpotIDs;
 
-    public Location(Tile[] tiles, Util.FishingTypes[] typesAvailable, int[] fishingSpotIDs, String locationName) {
+    public Location(Tile[] tiles, Util.FishingTypes[] typesAvailable, String locationName) {
         tilesToBank = tiles;
         fishingTypes = typesAvailable;
         this.locationName = locationName;
-        this.fishingSpotIDs = fishingSpotIDs;
     }
 
     public Util.FishingTypes[] getFishingTypes() {
         return fishingTypes;
-    }
-
-    public int[] getFishingSpotIDs() {
-        return fishingSpotIDs;
     }
 
     public String getLocationName() {

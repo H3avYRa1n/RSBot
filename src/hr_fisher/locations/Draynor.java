@@ -24,10 +24,8 @@ public class Draynor extends Location {
             Util.FishingTypes.TYPE_BAIT
     };
 
-    public static final int[] FISHING_SPOT_IDS = new int[]{327};
-
     public Draynor() {
-        super(TILES_TO_BANK, TYPES_AVAILABLE, FISHING_SPOT_IDS, "Draynor");
+        super(TILES_TO_BANK, TYPES_AVAILABLE, "Draynor");
     }
 
 

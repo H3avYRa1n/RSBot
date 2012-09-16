@@ -9,6 +9,7 @@ package hr_fisher.user;/*
 
 import org.powerbot.game.api.methods.input.Mouse;
 import org.powerbot.game.api.methods.tab.Skills;
+import org.powerbot.game.api.util.Time;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -17,10 +18,15 @@ import java.net.URL;
 
 public class FishingPaint {
 
-    public static final String IMAGE_LOCATION = "http://i50.tinypic.com/qz3dok.jpg";
-    public static final int NUM_MOUSE_TO_SAVE = 100;
+    public static final String IMAGE_LOCATION = "http://i49.tinypic.com/2hnxffc.jpg";
 
     public static Image img = null;
+    public static boolean shouldHide = false;
+
+    public static final int X_BEGIN = 448;
+    public static final int Y_BEGIN = 405;
+
+    public static final Rectangle HIDE_BUTTON = new Rectangle(448, 405, 60, 15);
 
     public static void setupImage() {
         try {
@@ -31,7 +37,17 @@ public class FishingPaint {
         }
     }
     public static void onRepaint(Graphics g) {
+
+        g.setFont(new Font("Serif", Font.PLAIN, 18));
+        g.setColor(Color.white);
+
+        if(shouldHide) {
+            g.drawString("Show", X_BEGIN + 5, Y_BEGIN + 5);
+            return;
+        }
+
         g.drawImage(img, 3, 390, null);
+        g.drawString("Hide", X_BEGIN + 5, Y_BEGIN + 5);
 
         g.setColor(new Color(0, 252, 255));
         g.setFont(new Font("Serif", Font.PLAIN, 22));
@@ -88,8 +104,6 @@ public class FishingPaint {
 
         int profit = 0;
 
-        int price = 0;
-
         for(int i = 0; i < Variables.fishCaught.length; i++) {
             if(Variables.dropTuna && Variables.chosenFishingType.getPossibleFish()[i] == Variables.TUNA_ID) {
                 continue;
@@ -117,6 +131,35 @@ public class FishingPaint {
         g.drawLine(mouseX - 5, mouseY, mouseX + 5, mouseY);
         g.drawLine(mouseX, mouseY - 5, mouseX, mouseY + 5);
 
+    }
+
+    public static void printInfo() {
+        long totalTime = System.currentTimeMillis() - Variables.startTime;
+
+        int profit = 0;
+
+        for(int i = 0; i < Variables.fishCaught.length; i++) {
+            if(Variables.dropTuna && Variables.chosenFishingType.getPossibleFish()[i] == Variables.TUNA_ID) {
+                continue;
+            }
+            profit += Variables.fishCaught[i] * Variables.fishPrice[i];
+        }
+
+        int XPGained = Skills.getExperience(Skills.FISHING) - Variables.startXP;
+        int fishCaught = 0;
+        for(int i : Variables.fishCaught) {
+            fishCaught += i;
+        }
+
+        int curLevel = Skills.getLevel(Skills.FISHING);
+        int levelsGained = curLevel - Variables.startLevel;
+
+        System.out.println("**************************************************");
+        System.out.println("Time Ran: " + Time.format(totalTime));
+        System.out.println("EXP Gained: " + XPGained);
+        System.out.println("Fish Caught: " + fishCaught);
+        System.out.println("Current Level: " + curLevel + " (+" + levelsGained + ")");
+        System.out.println("Profit: " + profit);
     }
 
 }

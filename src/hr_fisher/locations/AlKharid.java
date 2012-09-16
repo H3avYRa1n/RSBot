@@ -24,10 +24,8 @@ public class AlKharid extends Location {
             Util.FishingTypes.TYPE_BAIT
     };
 
-    public static final int[] FISHING_SPOT_IDS = new int[]{4908};
-
     public AlKharid() {
-        super(TILES_TO_BANK, TYPES_AVAILABLE, FISHING_SPOT_IDS, "Al-Kharid");
+        super(TILES_TO_BANK, TYPES_AVAILABLE, "Al-Kharid");
     }
 
 

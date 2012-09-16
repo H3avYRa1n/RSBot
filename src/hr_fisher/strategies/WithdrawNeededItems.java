@@ -18,6 +18,7 @@ import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.tab.Inventory;
 import org.powerbot.game.api.methods.widget.Bank;
 import org.powerbot.game.api.methods.widget.Camera;
+import org.powerbot.game.api.methods.widget.DepositBox;
 import org.powerbot.game.api.util.Filter;
 import org.powerbot.game.api.util.Time;
 import org.powerbot.game.api.wrappers.Entity;
@@ -69,6 +70,7 @@ public class WithdrawNeededItems extends Strategy implements Runnable {
                                     return Inventory.getCount(true, temp) > 0;
                                 }
                             });
+                            Time.sleep(750, 1000);
 
                         } else {
 
@@ -80,6 +82,7 @@ public class WithdrawNeededItems extends Strategy implements Runnable {
                                     return Inventory.getCount(true, temp) > 0;
                                 }
                             });
+                            Time.sleep(750, 1000);
                         }
 
                     }
@@ -114,6 +117,6 @@ public class WithdrawNeededItems extends Strategy implements Runnable {
 
     @Override
     public boolean validate() {
-        return Variables.hasStarted && !Util.hasNeededItems();
+        return Variables.hasStarted && !DepositBox.isOpen() && !Util.hasNeededItems();
     }
 }

@@ -7,6 +7,7 @@ package hr_fisher.strategies;/*
     
 */
 
+import hr_fisher.locations.LivingRockCaverns;
 import hr_fisher.user.Variables;
 import hr_fisher.locations.Karamja;
 import org.powerbot.concurrent.strategy.Condition;
@@ -19,6 +20,7 @@ import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.node.SceneEntities;
 import org.powerbot.game.api.methods.tab.Inventory;
 import org.powerbot.game.api.methods.widget.Bank;
+import org.powerbot.game.api.methods.widget.DepositBox;
 import org.powerbot.game.api.util.Time;
 import org.powerbot.game.api.wrappers.interactive.NPC;
 import org.powerbot.game.api.wrappers.map.TilePath;
@@ -41,7 +43,13 @@ public class WalkToBank extends Strategy implements Runnable {
 
     @Override
     public boolean validate() {
+
+        if(DepositBox.isOpen())
+            return false;
+
         return Variables.hasStarted && !Bank.isOpen() && (Inventory.isFull()
-                || !Util.hasNeededItems());
+                || !Util.hasNeededItems()
+                || (Variables.chosenLocation instanceof LivingRockCaverns
+                    && LivingRockCaverns.shouldGoToBank()));
     }
 }

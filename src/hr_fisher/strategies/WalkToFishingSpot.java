@@ -20,6 +20,7 @@ import org.powerbot.game.api.methods.node.SceneEntities;
 import org.powerbot.game.api.methods.tab.Inventory;
 import org.powerbot.game.api.methods.widget.Bank;
 import org.powerbot.game.api.methods.widget.Camera;
+import org.powerbot.game.api.methods.widget.DepositBox;
 import org.powerbot.game.api.util.Time;
 import org.powerbot.game.api.wrappers.interactive.NPC;
 import org.powerbot.game.api.wrappers.map.TilePath;
@@ -41,10 +42,21 @@ public class WalkToFishingSpot extends Strategy implements Runnable {
     @Override
     public boolean validate() {
 
+        if(!Variables.hasStarted)
+            return false;
+
+        if(DepositBox.isOpen()) {
+            int[] fish = Variables.chosenFishingType.getPossibleFish();
+            if(DepositBox.getItemCount(fish) > 0) {
+                return false;
+            }
+
+        }
+
         if (Bank.isOpen() && Inventory.getCount(Variables.chosenFishingType.getPossibleFish()) > 0)
             return false;
 
-        return Variables.hasStarted && Util.hasNeededItems()
+        return Util.hasNeededItems()
                 && !Inventory.isFull()
                 && Players.getLocal().getAnimation() == -1;
 

@@ -7,6 +7,8 @@ package hr_fisher.strategies;/*
     
 */
 
+import hr_fisher.locations.LivingRockCaverns;
+import hr_fisher.locations.ShiloVillage;
 import hr_fisher.user.Variables;
 import org.powerbot.concurrent.strategy.Condition;
 import org.powerbot.concurrent.strategy.Strategy;
@@ -16,6 +18,7 @@ import org.powerbot.game.api.methods.interactive.NPCs;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.tab.Inventory;
 import org.powerbot.game.api.methods.widget.Camera;
+import org.powerbot.game.api.methods.widget.DepositBox;
 import org.powerbot.game.api.util.Filter;
 import org.powerbot.game.api.util.Time;
 import org.powerbot.game.api.wrappers.interactive.NPC;
@@ -31,6 +34,13 @@ public class Fish extends Strategy implements Runnable {
                 String[] actions = npc.getActions();
                 for(String s : actions) {
                     if( s != null && s.contains(Variables.chosenFishingType.getInteractString())) {
+
+                        if(Variables.chosenLocation instanceof LivingRockCaverns)
+                            return npc.getName().contains("Rocktail");
+
+                        else if(Variables.chosenLocation instanceof ShiloVillage)
+                            return ShiloVillage.SOUTHERN_AREA.contains(npc.getLocation());
+
                         return true;
                     }
                 }
@@ -39,9 +49,8 @@ public class Fish extends Strategy implements Runnable {
             }
         });
 
-        if (closestFishingSpot != null && Calculations.distanceTo(closestFishingSpot.getLocation()) < 15) {
+        if (closestFishingSpot != null && Calculations.distanceTo(closestFishingSpot.getLocation()) < 20) {
             if (closestFishingSpot.isOnScreen()) {
-                Camera.turnTo(closestFishingSpot);
                 closestFishingSpot.interact(Variables.chosenFishingType.getInteractString());
                 Time.sleep(1000);
                 Util.waitFor(4000, new Condition() {
@@ -51,6 +60,7 @@ public class Fish extends Strategy implements Runnable {
                     }
                 });
             } else {
+                Camera.turnTo(closestFishingSpot);
                 LocalPath path = Walking.findPath(closestFishingSpot);
 
                 if (path != null) {
@@ -69,7 +79,8 @@ public class Fish extends Strategy implements Runnable {
 
     @Override
     public boolean validate() {
-
+        if(DepositBox.isOpen())
+            return false;
         //System.out.println(closestFishingSpot == null);
         return Variables.hasStarted && !Inventory.isFull() && Util.hasNeededItems()
                 && Players.getLocal().getAnimation() == -1;

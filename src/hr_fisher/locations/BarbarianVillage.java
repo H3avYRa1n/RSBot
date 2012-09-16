@@ -26,10 +26,9 @@ public class BarbarianVillage extends Location {
             Util.FishingTypes.TYPE_FLY
     };
 
-    public static final int[] FISHING_SPOT_IDS = new int[]{328};
 
     public BarbarianVillage() {
-        super(TILES_TO_BANK, TYPES_AVAILABLE, FISHING_SPOT_IDS, "Barbarian Village");
+        super(TILES_TO_BANK, TYPES_AVAILABLE, "Barbarian Village");
     }
 
 

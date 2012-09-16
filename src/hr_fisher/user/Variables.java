@@ -8,8 +8,12 @@ package hr_fisher.user;/*
 */
 
 import hr_fisher.locations.*;
+import org.powerbot.game.api.methods.Environment;
 
 public class Variables {
+
+    public static final int[] RANDOM_EVENT_ITEM_IDS = new int[]{6963, 14664};
+
     public static final int ITEM_FEATHER = 314;
     public static final int ITEM_BAIT = 313;
 
@@ -33,17 +37,22 @@ public class Variables {
     public static int bankingType = TYPE_BANK;
 
     public static Location[] locations = new Location[] {
-            new BarbarianVillage(),
             new AlKharid(),
-            new Karamja(),
-            new Draynor(),
-            new Lumbridge(),
+            new BarbarianAssault(),
+            new BarbarianVillage(),
             new Catherby(),
+            new Draynor(),
             new FishingGuild(),
+            new Karamja(),
+            //new LivingRockCaverns(),
+            new Lumbridge(),
+            new Piscatoris(),
             new ShiloVillage()
     };
+
 
     public static Location chosenLocation = locations[0];
 
     public static Util.FishingTypes chosenFishingType = Util.FishingTypes.TYPE_BAIT;
+
 }

@@ -22,11 +22,14 @@ import java.net.URLConnection;
 
 public class Util {
     public enum FishingTypes {
-        TYPE_NET(new int[]{303}, new int[]{317, 321}, new String[]{"shrimp", "anchovies"}, "Net", "Net Fishing"),
-        TYPE_BAIT(new int[]{307, 313}, new int[]{349, 345, 327}, new String[]{"pike", "herring", "sardine"}, "Bait", "Bait Fishing"),
-        TYPE_FLY(new int[]{305, 314}, new int[]{335}, new String[]{"trout"}, "Lure", "Fly Fishing"),
-        TYPE_HARPOON(new int[]{311}, new int[]{359, 371, 383}, new String[]{"tuna", "swordfish", "shark"}, "Harpoon", "Harpoon Fishing"),
-        TYPE_LOBSTER_CAGE(new int[]{301}, new int[]{377}, new String[]{"lobster"}, "Cage", "Cage Fishing");
+        TYPE_NET(new int[]{}, new int[]{317, 321, 7944}, new String[]{"shrimp", "anchovies", "monkfish"}, "Net", "Net Fishing"),
+        TYPE_BAIT(new int[]{313}, new int[]{349, 345, 327}, new String[]{"pike", "herring", "sardine"}, "Bait", "Bait Fishing"),
+        TYPE_FLY(new int[]{314}, new int[]{335, 331}, new String[]{"trout", "salmon"}, "Lure", "Fly Fishing"),
+        TYPE_HARPOON_TUNA(new int[]{}, new int[]{359, 371}, new String[]{"tuna", "swordfish"}, "Harpoon", "Harpoon (Swordies)"),
+        TYPE_HARPOON_SHARK(new int[]{}, new int[]{383}, new String[]{"shark"}, "Harpoon", "Harpoon (Sharks)"),
+        TYPE_LOBSTER_CAGE(new int[]{}, new int[]{377}, new String[]{"lobster"}, "Cage", "Cage Fishing"),
+        TYPE_ROCKTAIL_BAIT(new int[]{15263}, new int[]{15270}, new String[]{"rocktail"}, "Bait", "Rocktail Fishing"),
+        TYPE_BARB_FISHING(new int[]{313, 314, 11334, }, new int[]{11328, 11330, 11332}, new String[]{"leaping trout", "leaping salmon", "leaping sturgeon"}, "Use-rod", "Barb Fishing");
 
         private int[] itemsNeeded;
         private int[] possibleFish;
@@ -92,7 +95,10 @@ public class Util {
     }
 
     public static boolean hasNeededItems() {
-        return Inventory.containsAll(Variables.chosenFishingType.getNeededItems());
+        if(Variables.chosenFishingType.getNeededItems().length > 0)
+            return Inventory.containsAll(Variables.chosenFishingType.getNeededItems());
+
+        return true;
     }
 
     public static boolean dropTuna() {
