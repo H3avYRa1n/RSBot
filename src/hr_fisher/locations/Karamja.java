@@ -157,18 +157,7 @@ public class Karamja extends Location {
     @Override
     public void walkToFishingSpot() {
 
-        NPC fishingSpot = NPCs.getNearest(new Filter<NPC>() {
-            public boolean accept(NPC npc) {
-                String[] actions = npc.getActions();
-                for(String s : actions) {
-                    if( s != null && s.contains(Variables.chosenFishingType.getInteractString())) {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-        });
+        NPC fishingSpot = Util.getClosestFishingSpot();
 
         if(fishingSpot != null && fishingSpot.isOnScreen() && Calculations.distanceTo(fishingSpot) < 10) {
             return;
@@ -193,18 +182,7 @@ public class Karamja extends Location {
         } else if (Karamja.KARAMJA_AREA.contains(Players.getLocal().getLocation())) {
             TilePath pathToFishingSpot = new TilePath(Karamja.TILES_DOCK_TO_FISHING_SPOT);
 
-            NPC closestFishingSpot = NPCs.getNearest(new Filter<NPC>() {
-                public boolean accept(NPC npc) {
-                    String[] actions = npc.getActions();
-                    for(String s : actions) {
-                        if( s != null && s.contains(Variables.chosenFishingType.getInteractString())) {
-                            return true;
-                        }
-                    }
-
-                    return false;
-                }
-            });
+            NPC closestFishingSpot = Util.getClosestFishingSpot();
 
             if (Calculations.distanceTo(pathToFishingSpot.getEnd()) < 10 && !closestFishingSpot.isOnScreen()) {
 

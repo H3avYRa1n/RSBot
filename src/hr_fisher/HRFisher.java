@@ -28,6 +28,7 @@ package hr_fisher;
 import hr_fisher.strategies.*;
 import hr_fisher.user.FishingGUI;
 import hr_fisher.user.FishingPaint;
+import hr_fisher.user.Util;
 import hr_fisher.user.Variables;
 import org.powerbot.concurrent.strategy.Strategy;
 import org.powerbot.game.api.ActiveScript;
@@ -46,7 +47,7 @@ import java.awt.event.MouseListener;
         name = "HR Fisher v1.2",
         description = "Fishes almost all types of fish in many different locations.",
         authors = "H3avY Ra1n",
-        version = 1.1,
+        version = 1.2,
         website = "http://www.powerbot.org/community/topic/793227-hrfisher-aiofisher/"
 )
 

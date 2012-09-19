@@ -110,19 +110,7 @@ public class LivingRockCaverns extends Location {
             if (!Players.getLocal().isMoving()
                     || Calculations.distanceTo(Walking.getDestination()) < 5) {
 
-                NPC closestFishingSpot = NPCs.getNearest(new Filter<NPC>() {
-                    public boolean accept(NPC npc) {
-                        String[] actions = npc.getActions();
-                        for (String s : actions) {
-                            if (s != null && s.contains(Variables.chosenFishingType.getInteractString())
-                                    && npc.getName().contains("Rocktail")) {
-                                return true;
-                            }
-                        }
-
-                        return false;
-                    }
-                });
+                NPC closestFishingSpot = Util.getClosestFishingSpot();
 
                 if (RIGHT_FISHING_AREA.contains(Players.getLocal().getLocation())
                         || LEFT_FISHING_AREA.contains(Players.getLocal().getLocation())) {

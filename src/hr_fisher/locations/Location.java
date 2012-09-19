@@ -59,28 +59,21 @@ public class Location {
         if (!Players.getLocal().isMoving()
                 || Calculations.distanceTo(Walking.getDestination()) < 5) {
 
-            NPC closestFishingSpot = NPCs.getNearest(new Filter<NPC>() {
-                public boolean accept(NPC npc) {
-                    String[] actions = npc.getActions();
-                    for(String s : actions) {
-                        if( s != null && s.contains(Variables.chosenFishingType.getInteractString())) {
-                            return true;
-                        }
-                    }
-
-                    return false;
-                }
-            });
+            System.out.println("Walking to fishing spot.");
+            NPC closestFishingSpot = Util.getClosestFishingSpot();
 
             if(closestFishingSpot != null && closestFishingSpot.isOnScreen()
-                    && Calculations.distance(Players.getLocal().getLocation(), closestFishingSpot.getLocation()) < 5) {
+                    && Calculations.distanceTo(closestFishingSpot) < 5) {
+                System.out.println("Fishing Spot On Screen");
                 return;
             }
 
+            System.out.println("Making path.");
             TilePath pathToBank = new TilePath(tilesToBank);
             if (pathToBank != null) {
                 pathToBank.reverse();
                 if (pathToBank.traverse()) {
+                    System.out.println("Path traversed.");
                     Util.waitFor(5000, new Condition() {
                         @Override
                         public boolean validate() {
@@ -88,6 +81,8 @@ public class Location {
                         }
                     });
                 }
+            }  else {
+                System.out.println("TilePath is null.");
             }
         }
     }

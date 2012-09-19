@@ -38,9 +38,11 @@ public class DepositFish extends Strategy implements Runnable {
                 }
             });
         } else {
-            int[] itemsToDeposit = Variables.chosenFishingType.getPossibleFish();
-            for(int i : itemsToDeposit) {
-                Bank.deposit(i, Inventory.getCount(i));
+            for(Util.FishingTypes fishingTypes : Util.FishingTypes.values()) {
+                int[] itemsToDeposit = fishingTypes.getPossibleFish();
+                for(int i : itemsToDeposit) {
+                    Bank.deposit(i, Inventory.getCount(i));
+                }
             }
         }
     }

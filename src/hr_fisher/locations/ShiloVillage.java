@@ -47,11 +47,10 @@ public class ShiloVillage extends Location {
     };
 
     public static final Area SOUTHERN_AREA = new Area(
-            new Tile(2818, 2970, 0), new Tile(2825, 2971, 0), new Tile(2829, 2973, 0),
-            new Tile(2832, 2974, 0), new Tile(2835, 2974, 0), new Tile(2832, 2972, 0),
-            new Tile(2838, 2972, 0), new Tile(2843, 2972, 0), new Tile(2848, 2973, 0),
-            new Tile(2852, 2975, 0), new Tile(2862, 2975, 0), new Tile(2867, 2975, 0),
-            new Tile(2867, 2969, 0), new Tile(2817, 2966, 0)
+            new Tile(2817, 2971, 0), new Tile(2821, 2970, 0), new Tile(2826, 2975, 0),
+            new Tile(2839, 2975, 0), new Tile(2840, 2973, 0), new Tile(2847, 2973, 0),
+            new Tile(2851, 2975, 0), new Tile(2867, 2975, 0), new Tile(2867, 2971, 0),
+            new Tile(2818, 2966, 0)
     );
 
     public static final Area EAST_RIVER_AREA = new Area(
@@ -117,7 +116,6 @@ public class ShiloVillage extends Location {
 
             if (closestFishingSpot != null && closestFishingSpot.isOnScreen()
                     && Calculations.distance(Players.getLocal().getLocation(), closestFishingSpot.getLocation()) < 5) {
-                System.out.println("Fishing spot on screen");
                 return;
             }
 
@@ -131,7 +129,6 @@ public class ShiloVillage extends Location {
                             return !Players.getLocal().isMoving() || Calculations.distanceTo(Walking.getDestination()) < 5;
                         }
                     });
-                    System.out.println("Traversed.");
                 } else {
 
                     if (closestFishingSpot != null) {

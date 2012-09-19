@@ -7,6 +7,7 @@ package hr_fisher.strategies;/*
     
 */
 
+import hr_fisher.user.Util;
 import hr_fisher.user.Variables;
 import org.powerbot.concurrent.strategy.Strategy;
 import org.powerbot.game.api.methods.Game;
@@ -68,18 +69,7 @@ public class Antiban extends Strategy implements Runnable {
     @Override
     public boolean validate() {
 
-        NPC fishingSpot = NPCs.getNearest(new Filter<NPC>() {
-            public boolean accept(NPC npc) {
-                String[] actions = npc.getActions();
-                for(String s : actions) {
-                    if( s != null && s.contains(Variables.chosenFishingType.getInteractString())) {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-        });
+        NPC fishingSpot = Util.getClosestFishingSpot();
 
         return Variables.hasStarted
                 && !timer.isRunning()

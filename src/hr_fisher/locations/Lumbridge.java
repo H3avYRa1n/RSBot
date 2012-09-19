@@ -93,18 +93,7 @@ public class Lumbridge extends Location {
     @Override
     public void walkToFishingSpot() {
 
-        NPC fishingSpot = NPCs.getNearest(new Filter<NPC>() {
-            public boolean accept(NPC npc) {
-                String[] actions = npc.getActions();
-                for(String s : actions) {
-                    if( s != null && s.contains(Variables.chosenFishingType.getInteractString())) {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-        });
+        NPC fishingSpot = Util.getClosestFishingSpot();
 
         if(fishingSpot != null && fishingSpot.isOnScreen() && Calculations.distanceTo(fishingSpot) < 10) {
             return;

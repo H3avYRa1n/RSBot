@@ -1,16 +1,21 @@
 package hr_fisher.user;
 
+import hr_fisher.locations.LivingRockCaverns;
+import hr_fisher.locations.ShiloVillage;
 import org.powerbot.concurrent.strategy.Condition;
 import org.powerbot.game.api.methods.Game;
+import org.powerbot.game.api.methods.interactive.NPCs;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.tab.Inventory;
 import org.powerbot.game.api.methods.widget.Bank;
 import org.powerbot.game.api.methods.widget.Camera;
+import org.powerbot.game.api.util.Filter;
 import org.powerbot.game.api.util.Random;
 import org.powerbot.game.api.util.Time;
 import org.powerbot.game.api.util.Timer;
 import org.powerbot.game.api.wrappers.Locatable;
 import org.powerbot.game.api.wrappers.Tile;
+import org.powerbot.game.api.wrappers.interactive.NPC;
 import org.powerbot.game.api.wrappers.node.Item;
 
 import java.io.BufferedReader;
@@ -150,6 +155,50 @@ public class Util {
             }
         }
         return -1;
+    }
+
+    public static NPC getClosestFishingSpot() {
+
+        return NPCs.getNearest(new Filter<NPC>() {
+            public boolean accept(NPC npc) {
+                String[] actions = npc.getActions();
+                for (String s : actions) {
+                    if (s != null && s.contains(Variables.chosenFishingType.getInteractString())) {
+
+                        if (Variables.chosenLocation instanceof LivingRockCaverns)
+                            return npc.getName().contains("Rocktail");
+
+                        else if (Variables.chosenLocation instanceof ShiloVillage)
+                            return ShiloVillage.SOUTHERN_AREA.contains(npc.getLocation());
+
+                        else if (Variables.chosenFishingType == Util.FishingTypes.TYPE_HARPOON_SHARK) {
+                           if(npc.getId() == 322 || npc.getId() == 313)
+                            return true;
+
+                            return false;
+
+                        } else if (Variables.chosenFishingType == Util.FishingTypes.TYPE_HARPOON_TUNA) {
+                            if(npc.getId() == 320 || npc.getId() == 312 || npc.getId() == 324)
+                                return true;
+
+                            return false;
+                        }
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        });
+    }
+
+    public static void dropFish(int i) {
+        for(Item item : Inventory.getItems()) {
+            if(item.getId() == i) {
+                item.getWidgetChild().interact("Drop");
+                Time.sleep(200, 300);
+            }
+        }
     }
 
 }
