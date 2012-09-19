@@ -1,7 +1,7 @@
 
 /*
     Script Name: HR Fisher
-    Version: 1.1.2
+    Version: 1.3
     Author: H3avY Ra1n
 
     Changelog
@@ -21,6 +21,10 @@
         + ADDED: Dropping random event items
         + ADDED: Piscatoris Fishing Colony spot
         + ADDED: Barbarian Assault spot
+
+    September 19, 2012 - v1.3 -
+        + ADDED: Depositing all fish into bank from inventory, not just ones from selected fishing type
+        + FIXED: Not fishing correctly at Karamja for harpoons
  */
 
 package hr_fisher;
@@ -47,7 +51,7 @@ import java.awt.event.MouseListener;
         name = "HR Fisher v1.2",
         description = "Fishes almost all types of fish in many different locations.",
         authors = "H3avY Ra1n",
-        version = 1.2,
+        version = 1.3,
         website = "http://www.powerbot.org/community/topic/793227-hrfisher-aiofisher/"
 )
 
