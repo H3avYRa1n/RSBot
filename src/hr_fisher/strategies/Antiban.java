@@ -9,25 +9,19 @@ package hr_fisher.strategies;/*
 
 import hr_fisher.user.Util;
 import hr_fisher.user.Variables;
-import org.powerbot.concurrent.strategy.Strategy;
-import org.powerbot.game.api.methods.Game;
+import org.powerbot.core.script.job.Task;
+import org.powerbot.core.script.job.state.Node;
 import org.powerbot.game.api.methods.Tabs;
-import org.powerbot.game.api.methods.Widgets;
 import org.powerbot.game.api.methods.input.Mouse;
-import org.powerbot.game.api.methods.interactive.NPCs;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.tab.Skills;
 import org.powerbot.game.api.methods.widget.Camera;
-import org.powerbot.game.api.util.Filter;
 import org.powerbot.game.api.util.Random;
-import org.powerbot.game.api.util.Time;
 import org.powerbot.game.api.util.Timer;
 import org.powerbot.game.api.wrappers.interactive.NPC;
 import org.powerbot.game.api.wrappers.widget.WidgetChild;
-import hr_fisher.user.Variables;
-import sun.font.StandardTextSource;
 
-public class Antiban extends Strategy implements Runnable {
+public class Antiban extends Node {
     private Timer timer;
 
     private static final int minTime = (20 * 1000);
@@ -38,14 +32,14 @@ public class Antiban extends Strategy implements Runnable {
     }
 
     @Override
-    public void run() {
+    public void execute() {
         int randomTask = Random.nextInt(1, 5);
 
-        switch(randomTask) {
+        switch (randomTask) {
             case 1:
-                if(!Tabs.STATS.isOpen()) {
+                if (!Tabs.STATS.isOpen()) {
                     Tabs.STATS.open();
-                    Time.sleep(1000);
+                    Task.sleep(1000);
 
                     final int widgetID = 0;
                     WidgetChild fishingWidget = Skills.getWidgetChild(29);
@@ -54,7 +48,7 @@ public class Antiban extends Strategy implements Runnable {
                     int y = fishingWidget.getAbsoluteY() + Random.nextInt(0, fishingWidget.getHeight());
 
                     Mouse.move(x, y);
-                    Time.sleep(Random.nextInt(2000, 4000));
+                    Task.sleep(Random.nextInt(2000, 4000));
 
                 }
                 break;
@@ -67,7 +61,7 @@ public class Antiban extends Strategy implements Runnable {
     }
 
     @Override
-    public boolean validate() {
+    public boolean activate() {
 
         NPC fishingSpot = Util.getClosestFishingSpot();
 

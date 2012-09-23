@@ -7,7 +7,9 @@ package hr_fisher.locations;/*
     
 */
 
-import org.powerbot.concurrent.strategy.Condition;
+import hr_fisher.user.Condition;
+import hr_fisher.user.Util;
+import org.powerbot.core.script.job.Task;
 import org.powerbot.game.api.methods.Calculations;
 import org.powerbot.game.api.methods.Walking;
 import org.powerbot.game.api.methods.Widgets;
@@ -15,8 +17,6 @@ import org.powerbot.game.api.methods.interactive.NPCs;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.node.SceneEntities;
 import org.powerbot.game.api.methods.widget.Camera;
-import org.powerbot.game.api.util.Filter;
-import org.powerbot.game.api.util.Time;
 import org.powerbot.game.api.wrappers.Area;
 import org.powerbot.game.api.wrappers.Tile;
 import org.powerbot.game.api.wrappers.interactive.NPC;
@@ -24,8 +24,6 @@ import org.powerbot.game.api.wrappers.map.TilePath;
 import org.powerbot.game.api.wrappers.node.SceneObject;
 import org.powerbot.game.api.wrappers.widget.Widget;
 import org.powerbot.game.api.wrappers.widget.WidgetChild;
-import hr_fisher.user.Util;
-import hr_fisher.user.Variables;
 
 public class Karamja extends Location {
 
@@ -98,7 +96,7 @@ public class Karamja extends Location {
                         WidgetChild child = officerTalking.getChild(19);
                         if (child.validate()) {
                             child.interact("Continue");
-                            Time.sleep(1000);
+                            Task.sleep(1000);
                         }
                     } else {
 
@@ -107,12 +105,12 @@ public class Karamja extends Location {
                             WidgetChild child = buttonWidget.getChild(3);
                             if (child.validate() && (child.getText().contains("Can I") || child.getText().contains("Ok."))) {
                                 child.interact("Continue");
-                                Time.sleep(1000);
+                                Task.sleep(1000);
                             } else {
                                 child = buttonWidget.getChild(24);
                                 if (child.validate() && child.getText().contains("Search")) {
                                     child.interact("Continue");
-                                    Time.sleep(1000);
+                                    Task.sleep(1000);
                                 }
                             }
                         } else {
@@ -122,11 +120,11 @@ public class Karamja extends Location {
                                 WidgetChild child = playerTalking.getChild(19);
                                 if (child.validate()) {
                                     child.interact("Continue");
-                                    Time.sleep(1000);
+                                    Task.sleep(1000);
                                 }
                             } else {
                                 customsOfficer.interact("Pay-Fare");
-                                Time.sleep(1000, 1500);
+                                Task.sleep(1000, 1500);
                             }
                         }
                     }
@@ -139,7 +137,7 @@ public class Karamja extends Location {
                 path.reverse();
 
                 if (path.traverse()) {
-                    Time.sleep(1000, 2000);
+                    Task.sleep(1000, 2000);
                 }
             }
         } else {
@@ -147,7 +145,7 @@ public class Karamja extends Location {
 
             if (gangPlank != null && gangPlank.isOnScreen()) {
                 gangPlank.interact("Cross");
-                Time.sleep(1000, 2000);
+                Task.sleep(1000, 2000);
             }
 
             super.walkToBank();
@@ -159,7 +157,7 @@ public class Karamja extends Location {
 
         NPC fishingSpot = Util.getClosestFishingSpot();
 
-        if(fishingSpot != null && fishingSpot.isOnScreen() && Calculations.distanceTo(fishingSpot) < 10) {
+        if (fishingSpot != null && fishingSpot.isOnScreen() && Calculations.distanceTo(fishingSpot) < 10) {
             return;
         }
 
@@ -188,7 +186,7 @@ public class Karamja extends Location {
 
                 Camera.turnTo(closestFishingSpot);
             } else if (pathToFishingSpot.traverse()) {
-                Time.sleep(1000, 2000);
+                Task.sleep(1000, 2000);
             }
 
         } else {
@@ -196,7 +194,7 @@ public class Karamja extends Location {
 
             if (gangPlank != null) {
                 gangPlank.interact("Cross");
-                Time.sleep(1000, 1500);
+                Task.sleep(1000, 1500);
             } else {
                 NPC closestFisherman = NPCs.getNearest(Karamja.CUSTOMS_OFFICERS_IDS);
 
@@ -209,7 +207,7 @@ public class Karamja extends Location {
 
                         if (child.validate()) {
                             child.interact("Continue");
-                            Time.sleep(500, 1000);
+                            Task.sleep(500, 1000);
                         }
                     } else {
                         Widget buttonWidget = Widgets.get(1188);
@@ -217,7 +215,7 @@ public class Karamja extends Location {
                             WidgetChild child = buttonWidget.getChild(3);
                             if (child.validate()) {
                                 child.interact("Continue");
-                                Time.sleep(500, 1000);
+                                Task.sleep(500, 1000);
                             }
                         } else {
                             Widget playerTalkingWidget = Widgets.get(1191);
@@ -225,11 +223,11 @@ public class Karamja extends Location {
                                 WidgetChild child = playerTalkingWidget.getChild(19);
                                 if (child.validate()) {
                                     child.interact("Continue");
-                                    Time.sleep(500, 1000);
+                                    Task.sleep(500, 1000);
                                 }
                             } else {
                                 closestFisherman.interact("Pay");
-                                Time.sleep(1000, 1500);
+                                Task.sleep(1000, 1500);
                             }
                         }
                     }

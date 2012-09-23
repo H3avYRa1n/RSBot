@@ -1,46 +1,45 @@
-
 /*
-    Script Name: HR Fisher
-    Version: 1.3
-    Author: H3avY Ra1n
+   Script Name: HR Fisher
+   Version: 1.3
+   Author: H3avY Ra1n
 
-    Changelog
-    ---------
-    September 07, 2012 - v1.0 -
-        + Initial release
+   Changelog
+   ---------
+   September 07, 2012 - v1.0 -
+       + Initial release
 
-    September 14, 2012 - v1.1 -
-        + ADDED: Option to show/hide paint and fixed logging out unexpectedly.
+   September 14, 2012 - v1.1 -
+       + ADDED: Option to show/hide paint and fixed logging out unexpectedly.
 
-    September 15, 2012 - v1.1.1 -
-        + FIXED: Shilo Village fishing.
-        + FIXED: Scriptnot working if items were in toolbelt.
-        + ADDED: Option to fish at shark spots of swordfish spots if harpooning
+   September 15, 2012 - v1.1.1 -
+       + FIXED: Shilo Village fishing.
+       + FIXED: Scriptnot working if items were in toolbelt.
+       + ADDED: Option to fish at shark spots of swordfish spots if harpooning
 
-    September 16, 2012 - v1.2 -
-        + ADDED: Dropping random event items
-        + ADDED: Piscatoris Fishing Colony spot
-        + ADDED: Barbarian Assault spot
+   September 16, 2012 - v1.2 -
+       + ADDED: Dropping random event items
+       + ADDED: Piscatoris Fishing Colony spot
+       + ADDED: Barbarian Assault spot
 
-    September 19, 2012 - v1.3 -
-        + ADDED: Depositing all fish into bank from inventory, not just ones from selected fishing type
-        + FIXED: Not fishing correctly at Karamja for harpoons
- */
+   September 19, 2012 - v1.3 -
+       + ADDED: Depositing all fish into bank from inventory, not just ones from selected fishing type
+       + FIXED: Not fishing correctly at Karamja for harpoons
+*/
 
 package hr_fisher;
 
 import hr_fisher.strategies.*;
 import hr_fisher.user.FishingGUI;
 import hr_fisher.user.FishingPaint;
-import hr_fisher.user.Util;
 import hr_fisher.user.Variables;
-import org.powerbot.concurrent.strategy.Strategy;
-import org.powerbot.game.api.ActiveScript;
+import org.powerbot.core.event.events.MessageEvent;
+import org.powerbot.core.event.listeners.MessageListener;
+import org.powerbot.core.event.listeners.PaintListener;
+import org.powerbot.core.script.ActiveScript;
+import org.powerbot.core.script.job.state.Node;
+import org.powerbot.core.script.job.state.Tree;
 import org.powerbot.game.api.Manifest;
-import org.powerbot.game.api.methods.Game;
-import org.powerbot.game.bot.event.MessageEvent;
-import org.powerbot.game.bot.event.listener.MessageListener;
-import org.powerbot.game.bot.event.listener.PaintListener;
+import org.powerbot.game.api.util.Random;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,25 +47,19 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 @Manifest(
-        name = "HR Fisher v1.2",
+        name = "HR Fisher v1.4",
         description = "Fishes almost all types of fish in many different locations.",
         authors = "H3avY Ra1n",
-        version = 1.3,
+        version = 1.4,
         website = "http://www.powerbot.org/community/topic/793227-hrfisher-aiofisher/"
 )
 
 public class HRFisher extends ActiveScript implements PaintListener, MessageListener, MouseListener {
 
-    @Override
-    protected void setup() {
-        provide(new WithdrawNeededItems());
-        provide(new WalkToFishingSpot());
-        provide(new Fish());
-        provide(new CheckGUI());
-        provide(new Antiban());
-        provide(new FixCamera());
-        //provide(new PrintInfo());
+    private Tree jobs = null;
 
+    @Override
+    public void onStart() {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -76,8 +69,46 @@ public class HRFisher extends ActiveScript implements PaintListener, MessageList
         });
 
         FishingPaint.setupImage();
+    }
 
-        //System.out.println("Has Needed Items: " + Util.hasNeededItems());
+    @Override
+    public int loop() {
+
+        if (!Variables.hasStarted) {
+            return Random.nextInt(200, 400);
+        } else {
+
+            if (jobs == null) {
+
+                switch (Variables.bankingType) {
+                    case Variables.TYPE_BANK:
+                        jobs = new Tree(new Node[]{new WithdrawNeededItems(), new WalkToFishingSpot(),
+                                new Fish(), new Antiban(), new FixCamera(), new WalkToBank(), new DepositFish()});
+                        break;
+                    case Variables.TYPE_POWERFISH:
+                        jobs = new Tree(new Node[]{new WithdrawNeededItems(), new WalkToFishingSpot(),
+                                new Fish(), new Antiban(), new FixCamera(), new DropFish()});
+                        break;
+                    case Variables.TYPE_STILES:
+                        jobs = new Tree(new Node[]{new WithdrawNeededItems(), new WalkToFishingSpot(),
+                                new Fish(), new Antiban(), new FixCamera(), new UseStiles()});
+                        break;
+                    default:
+                        jobs = new Tree(new Node[]{new WithdrawNeededItems(), new WalkToFishingSpot(),
+                                new Fish(), new Antiban(), new FixCamera(), new F1D1()});
+                }
+            }
+
+            final Node job = jobs.state();
+
+            if (job != null) {
+                jobs.set(job);
+                getContainer().submit(job);
+                job.join();
+            }
+
+            return 0;
+        }
     }
 
     @Override
@@ -106,7 +137,7 @@ public class HRFisher extends ActiveScript implements PaintListener, MessageList
     @Override
     public void mouseClicked(MouseEvent e) {
 
-        if(FishingPaint.HIDE_BUTTON.contains(e.getPoint())) {
+        if (FishingPaint.HIDE_BUTTON.contains(e.getPoint())) {
             FishingPaint.shouldHide = !FishingPaint.shouldHide;
         }
     }
@@ -125,46 +156,5 @@ public class HRFisher extends ActiveScript implements PaintListener, MessageList
 
     @Override
     public void mouseExited(MouseEvent e) {
-    }
-
-    private class CheckGUI extends Strategy implements Runnable {
-
-        @Override
-        public void run() {
-            switch (Variables.bankingType) {
-                case Variables.TYPE_BANK:
-                    provide(new WalkToBank());
-                    provide(new DepositFish());
-                    break;
-                case Variables.TYPE_POWERFISH:
-                    provide(new DropFish());
-                    break;
-                case Variables.TYPE_STILES:
-                    provide(new UseStiles());
-                    break;
-                default:
-                    provide(new F1D1());
-            }
-
-            revoke(this);
-        }
-
-        @Override
-        public boolean validate() {
-            return Variables.hasStarted;
-        }
-    }
-
-    private class PrintInfo extends Strategy implements Runnable {
-        @Override
-        public void run() {
-            FishingPaint.printInfo();
-            stop();
-        }
-
-        @Override
-        public boolean validate() {
-            return !Game.isLoggedIn();
-        }
     }
 }

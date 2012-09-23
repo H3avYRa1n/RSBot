@@ -36,12 +36,13 @@ public class FishingPaint {
             return;
         }
     }
+
     public static void onRepaint(Graphics g) {
 
         g.setFont(new Font("Serif", Font.PLAIN, 18));
         g.setColor(Color.white);
 
-        if(shouldHide) {
+        if (shouldHide) {
             g.drawString("Show", X_BEGIN + 5, Y_BEGIN + 5);
             return;
         }
@@ -64,7 +65,7 @@ public class FishingPaint {
         hours %= 24;
 
         String formattedTime =
-                ((days == 0) ? "" : (days + ":" )) + (hours < 10 ? "0" : "") + hours + ":" +
+                ((days == 0) ? "" : (days + ":")) + (hours < 10 ? "0" : "") + hours + ":" +
                         (minutes < 10 ? "0" : "") + minutes + ":" +
                         (seconds < 10 ? "0" : "") + seconds;
 
@@ -72,12 +73,12 @@ public class FishingPaint {
 
         int XPGained = Skills.getExperience(Skills.FISHING) - Variables.startXP;
         int fishCaught = 0;
-        for(int i : Variables.fishCaught) {
+        for (int i : Variables.fishCaught) {
             fishCaught += i;
         }
 
         double fishPerMillisecond = fishCaught * 1.0 / totalTime;
-        int fishPerHour = (int)(fishPerMillisecond * 3600 * 1000);
+        int fishPerHour = (int) (fishPerMillisecond * 3600 * 1000);
 
         int curLevel = Skills.getLevel(Skills.FISHING);
         int levelsGained = curLevel - Variables.startLevel;
@@ -86,7 +87,7 @@ public class FishingPaint {
 
         double XPPerMillisecond = XPGained * 1.0 / totalTime;
         long timeTillLevel = XPPerMillisecond == 0 ? 0 : (long) (XPTillLevel / XPPerMillisecond);
-        int xpPerHour = (int)(XPPerMillisecond * 3600 * 1000);
+        int xpPerHour = (int) (XPPerMillisecond * 3600 * 1000);
 
         seconds = timeTillLevel / 1000;
         minutes = seconds / 60;
@@ -98,28 +99,28 @@ public class FishingPaint {
         hours %= 24;
 
         formattedTime =
-                ((days == 0) ? "" : (days + ":" )) + (hours < 10 ? "0" : "") + hours + ":" +
+                ((days == 0) ? "" : (days + ":")) + (hours < 10 ? "0" : "") + hours + ":" +
                         (minutes < 10 ? "0" : "") + minutes + ":" +
                         (seconds < 10 ? "0" : "") + seconds;
 
         int profit = 0;
 
-        for(int i = 0; i < Variables.fishCaught.length; i++) {
-            if(Variables.dropTuna && Variables.chosenFishingType.getPossibleFish()[i] == Variables.TUNA_ID) {
+        for (int i = 0; i < Variables.fishCaught.length; i++) {
+            if (Variables.dropTuna && Variables.chosenFishingType.getPossibleFish()[i] == Variables.TUNA_ID) {
                 continue;
             }
             profit += Variables.fishCaught[i] * Variables.fishPrice[i];
         }
 
         double profitPerMillisecond = profit * 1.0 / totalTime;
-        int profitPerHour = (int)(profitPerMillisecond * 3600 * 1000);
+        int profitPerHour = (int) (profitPerMillisecond * 3600 * 1000);
 
-        g.drawString("" + XPGained+ " (" + xpPerHour + "/h)", 143, 500);
+        g.drawString("" + XPGained + " (" + xpPerHour + "/h)", 143, 500);
         g.drawString("" + fishCaught + " (" + fishPerHour + "/h)", 149, 540);
         g.drawString("" + curLevel + " (+" + levelsGained + ")", 436, 458);
         g.drawString(formattedTime, 340, 498);
         String profitDisplay = "N/A";
-        if(Variables.bankingType != Variables.TYPE_POWERFISH && Variables.bankingType != Variables.TYPE_F1D1) {
+        if (Variables.bankingType != Variables.TYPE_POWERFISH && Variables.bankingType != Variables.TYPE_F1D1) {
             profitDisplay = profit + " (" + profitPerHour + "/h)";
         }
         g.drawString(profitDisplay, 360, 540);
@@ -138,8 +139,8 @@ public class FishingPaint {
 
         int profit = 0;
 
-        for(int i = 0; i < Variables.fishCaught.length; i++) {
-            if(Variables.dropTuna && Variables.chosenFishingType.getPossibleFish()[i] == Variables.TUNA_ID) {
+        for (int i = 0; i < Variables.fishCaught.length; i++) {
+            if (Variables.dropTuna && Variables.chosenFishingType.getPossibleFish()[i] == Variables.TUNA_ID) {
                 continue;
             }
             profit += Variables.fishCaught[i] * Variables.fishPrice[i];
@@ -147,7 +148,7 @@ public class FishingPaint {
 
         int XPGained = Skills.getExperience(Skills.FISHING) - Variables.startXP;
         int fishCaught = 0;
-        for(int i : Variables.fishCaught) {
+        for (int i : Variables.fishCaught) {
             fishCaught += i;
         }
 

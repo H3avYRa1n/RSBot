@@ -8,7 +8,6 @@ package hr_fisher.user;/*
 */
 
 import hr_fisher.locations.*;
-import org.powerbot.game.api.methods.Environment;
 
 public class Variables {
 
@@ -36,7 +35,7 @@ public class Variables {
     public static int startLevel = 0;
     public static int bankingType = TYPE_BANK;
 
-    public static Location[] locations = new Location[] {
+    public static Location[] locations = new Location[]{
             new AlKharid(),
             new BarbarianAssault(),
             new BarbarianVillage(),

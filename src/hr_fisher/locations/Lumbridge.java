@@ -7,20 +7,17 @@ package hr_fisher.locations;/*
     
 */
 
-import hr_fisher.user.Variables;
-import org.powerbot.concurrent.strategy.Condition;
+import hr_fisher.user.Condition;
+import hr_fisher.user.Util;
+import org.powerbot.core.script.job.Task;
 import org.powerbot.game.api.methods.Calculations;
 import org.powerbot.game.api.methods.Walking;
-import org.powerbot.game.api.methods.interactive.NPCs;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.node.SceneEntities;
-import org.powerbot.game.api.util.Filter;
-import org.powerbot.game.api.util.Time;
 import org.powerbot.game.api.wrappers.Tile;
 import org.powerbot.game.api.wrappers.interactive.NPC;
 import org.powerbot.game.api.wrappers.map.TilePath;
 import org.powerbot.game.api.wrappers.node.SceneObject;
-import hr_fisher.user.Util;
 
 public class Lumbridge extends Location {
 
@@ -73,7 +70,7 @@ public class Lumbridge extends Location {
 
             if (ladder != null && ladder.isOnScreen()) {
                 ladder.interact("Climb-up");
-                Time.sleep(1000, 1500);
+                Task.sleep(1000, 1500);
             } else {
                 TilePath path = new TilePath(TILES_TO_LADDER);
                 if (path != null) {
@@ -95,7 +92,7 @@ public class Lumbridge extends Location {
 
         NPC fishingSpot = Util.getClosestFishingSpot();
 
-        if(fishingSpot != null && fishingSpot.isOnScreen() && Calculations.distanceTo(fishingSpot) < 10) {
+        if (fishingSpot != null && fishingSpot.isOnScreen() && Calculations.distanceTo(fishingSpot) < 10) {
             return;
         }
 
@@ -105,7 +102,7 @@ public class Lumbridge extends Location {
 
             if (ladder.isOnScreen()) {
                 ladder.interact("Climb-down");
-                Time.sleep(1000, 1500);
+                Task.sleep(1000, 1500);
             } else {
                 TilePath path = new TilePath(TILES_LADDER_TO_BANK);
 
@@ -126,7 +123,7 @@ public class Lumbridge extends Location {
 
             if (ladder != null && ladder.isOnScreen()) {
                 ladder.interact("Climb-down");
-                Time.sleep(1000, 1500);
+                Task.sleep(1000, 1500);
             } else {
                 TilePath pathToFishingSpot = new TilePath(TILES_TO_LADDER);
                 if (pathToFishingSpot != null) {

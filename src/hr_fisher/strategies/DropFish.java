@@ -9,44 +9,39 @@ package hr_fisher.strategies;/*
 
 import hr_fisher.user.Util;
 import hr_fisher.user.Variables;
-import org.powerbot.concurrent.strategy.Strategy;
-import org.powerbot.game.api.methods.input.Mouse;
-import org.powerbot.game.api.methods.node.Menu;
+import org.powerbot.core.script.job.Task;
+import org.powerbot.core.script.job.state.Node;
 import org.powerbot.game.api.methods.tab.Inventory;
 import org.powerbot.game.api.methods.widget.DepositBox;
-import org.powerbot.game.api.util.Random;
-import org.powerbot.game.api.util.Time;
 import org.powerbot.game.api.wrappers.node.Item;
-import hr_fisher.user.Variables;
-import org.powerbot.game.api.wrappers.widget.Widget;
 import org.powerbot.game.api.wrappers.widget.WidgetChild;
 
-public class DropFish extends Strategy implements Runnable {
+public class DropFish extends Node {
 
     @Override
-    public void run() {
+    public void execute() {
 
         Variables.isDropping = true;
-        for(Item i : Inventory.getItems()) {
-            for(Util.FishingTypes fishingType : Util.FishingTypes.values()) {
+        for (Item i : Inventory.getItems()) {
+            for (Util.FishingTypes fishingType : Util.FishingTypes.values()) {
 
                 int[] fishes = fishingType.getPossibleFish();
 
                 WidgetChild child;
-                for(int fish : fishes) {
-                    if(i.getId() == fish) {
+                for (int fish : fishes) {
+                    if (i.getId() == fish) {
 
                         i.getWidgetChild().interact("Drop");
-                        Time.sleep(100, 150);
+                        Task.sleep(100, 150);
                         break;
                     }
                 }
             }
 
-            for(int random : Variables.RANDOM_EVENT_ITEM_IDS) {
-                if(i.getId() == random) {
+            for (int random : Variables.RANDOM_EVENT_ITEM_IDS) {
+                if (i.getId() == random) {
                     i.getWidgetChild().interact("Drop");
-                    Time.sleep(100, 150);
+                    Task.sleep(100, 150);
                     break;
                 }
             }
@@ -56,8 +51,8 @@ public class DropFish extends Strategy implements Runnable {
     }
 
     @Override
-    public boolean validate() {
-        if(DepositBox.isOpen())
+    public boolean activate() {
+        if (DepositBox.isOpen())
             return false;
 
         return Inventory.isFull()

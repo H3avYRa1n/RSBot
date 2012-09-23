@@ -7,17 +7,15 @@ package hr_fisher.locations;/*
     
 */
 
+import hr_fisher.user.Condition;
 import hr_fisher.user.Util;
 import hr_fisher.user.Variables;
-import org.powerbot.concurrent.strategy.Condition;
+import org.powerbot.core.script.job.Task;
 import org.powerbot.game.api.methods.Calculations;
 import org.powerbot.game.api.methods.Walking;
-import org.powerbot.game.api.methods.interactive.NPCs;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.node.SceneEntities;
 import org.powerbot.game.api.methods.widget.DepositBox;
-import org.powerbot.game.api.util.Filter;
-import org.powerbot.game.api.util.Time;
 import org.powerbot.game.api.wrappers.Area;
 import org.powerbot.game.api.wrappers.Tile;
 import org.powerbot.game.api.wrappers.interactive.NPC;
@@ -59,7 +57,7 @@ public class LivingRockCaverns extends Location {
             SceneObject box = SceneEntities.getNearest(depositPulleyID);
             if (box != null && box.isOnScreen()) {
                 box.interact("Deposit");
-                Time.sleep(1000, 2000);
+                Task.sleep(1000, 2000);
             }
         } else {
             int[] toDeposit = Variables.chosenFishingType.getPossibleFish();
@@ -130,7 +128,7 @@ public class LivingRockCaverns extends Location {
                             }
                         }
                     }
-                } else if(closestFishingSpot == null || !closestFishingSpot.isOnScreen()){
+                } else if (closestFishingSpot == null || !closestFishingSpot.isOnScreen()) {
                     TilePath pathFromBank = new TilePath(TILES_TO_BANK);
                     if (pathFromBank != null) {
                         pathFromBank.reverse();

@@ -7,12 +7,12 @@ package hr_fisher.locations;/*
     
 */
 
-import org.powerbot.game.api.wrappers.Tile;
 import hr_fisher.user.Util;
+import org.powerbot.game.api.wrappers.Tile;
 
 public class FishingGuild extends Location {
 
-    public static final Tile[] TILES_TO_BANK = new Tile[] {
+    public static final Tile[] TILES_TO_BANK = new Tile[]{
             new Tile(2599, 3420, 0), new Tile(2594, 3420, 0),
             new Tile(2590, 3420, 0), new Tile(2585, 3421, 0)
     };

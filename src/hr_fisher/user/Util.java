@@ -2,19 +2,13 @@ package hr_fisher.user;
 
 import hr_fisher.locations.LivingRockCaverns;
 import hr_fisher.locations.ShiloVillage;
-import org.powerbot.concurrent.strategy.Condition;
+import org.powerbot.core.script.job.Task;
 import org.powerbot.game.api.methods.Game;
 import org.powerbot.game.api.methods.interactive.NPCs;
-import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.tab.Inventory;
 import org.powerbot.game.api.methods.widget.Bank;
-import org.powerbot.game.api.methods.widget.Camera;
 import org.powerbot.game.api.util.Filter;
-import org.powerbot.game.api.util.Random;
-import org.powerbot.game.api.util.Time;
 import org.powerbot.game.api.util.Timer;
-import org.powerbot.game.api.wrappers.Locatable;
-import org.powerbot.game.api.wrappers.Tile;
 import org.powerbot.game.api.wrappers.interactive.NPC;
 import org.powerbot.game.api.wrappers.node.Item;
 
@@ -26,6 +20,7 @@ import java.net.URLConnection;
 
 
 public class Util {
+
     public enum FishingTypes {
         TYPE_NET(new int[]{}, new int[]{317, 321, 7944}, new String[]{"shrimp", "anchovies", "monkfish"}, "Net", "Net Fishing"),
         TYPE_BAIT(new int[]{313}, new int[]{349, 345, 327}, new String[]{"pike", "herring", "sardine"}, "Bait", "Bait Fishing"),
@@ -34,7 +29,7 @@ public class Util {
         TYPE_HARPOON_SHARK(new int[]{}, new int[]{383}, new String[]{"shark"}, "Harpoon", "Harpoon (Sharks)"),
         TYPE_LOBSTER_CAGE(new int[]{}, new int[]{377}, new String[]{"lobster"}, "Cage", "Cage Fishing"),
         TYPE_ROCKTAIL_BAIT(new int[]{15263}, new int[]{15270}, new String[]{"rocktail"}, "Bait", "Rocktail Fishing"),
-        TYPE_BARB_FISHING(new int[]{313, 314, 11334, }, new int[]{11328, 11330, 11332}, new String[]{"leaping trout", "leaping salmon", "leaping sturgeon"}, "Use-rod", "Barb Fishing");
+        TYPE_BARB_FISHING(new int[]{313, 314, 11334,}, new int[]{11328, 11330, 11332}, new String[]{"leaping trout", "leaping salmon", "leaping sturgeon"}, "Use-rod", "Barb Fishing");
 
         private int[] itemsNeeded;
         private int[] possibleFish;
@@ -93,63 +88,58 @@ public class Util {
             if (c.validate())
                 return true;
 
-            Time.sleep(50);
+            Task.sleep(50);
         }
 
         return false;
     }
 
     public static boolean hasNeededItems() {
-        if(Variables.chosenFishingType.getNeededItems().length > 0)
+        if (Variables.chosenFishingType.getNeededItems().length > 0)
             return Inventory.containsAll(Variables.chosenFishingType.getNeededItems());
 
         return true;
     }
 
     public static boolean dropTuna() {
-        if(!Variables.dropTuna || Inventory.getCount(Variables.TUNA_ID) == 0)
+        if (!Variables.dropTuna || Inventory.getCount(Variables.TUNA_ID) == 0)
             return false;
 
-        for(Item i : Inventory.getItems()) {
-            if(i.getId() == Variables.TUNA_ID) {
+        for (Item i : Inventory.getItems()) {
+            if (i.getId() == Variables.TUNA_ID) {
                 i.getWidgetChild().interact("Drop");
-                Time.sleep(200, 300);
+                Task.sleep(200, 300);
             }
         }
 
         return true;
     }
+
     public static void logout() {
-        if(Bank.isOpen()) {
+        if (Bank.isOpen()) {
             Bank.close();
-            Time.sleep(1000, 1500);
+            Task.sleep(1000, 1500);
         }
 
         Game.logout(false);
-        Time.sleep(5000);
+        Task.sleep(5000);
         Variables.hasStarted = false;
     }
 
-    public static int getPriceOfItem(int id) throws IOException
-    {
+    public static int getPriceOfItem(int id) throws IOException {
         String price;
         URL url = new URL("http://services.runescape.com/m=itemdb_rs/viewitem.ws?obj=" + id);
         URLConnection con = url.openConnection();
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String line;
-        while ((line = in.readLine()) != null)
-        {
-            if (line.contains("<td>"))
-            {
+        while ((line = in.readLine()) != null) {
+            if (line.contains("<td>")) {
                 price = line.substring(line.indexOf(">") + 1,
                         line.indexOf("/") - 1);
                 price = price.replace(",", "");
-                try
-                {
+                try {
                     return Integer.parseInt(price);
-                }
-                catch (NumberFormatException e)
-                {
+                } catch (NumberFormatException e) {
                     return 0;
                 }
             }
@@ -172,13 +162,13 @@ public class Util {
                             return ShiloVillage.SOUTHERN_AREA.contains(npc.getLocation());
 
                         else if (Variables.chosenFishingType == Util.FishingTypes.TYPE_HARPOON_SHARK) {
-                           if(npc.getId() == 322 || npc.getId() == 313)
-                            return true;
+                            if (npc.getId() == 322 || npc.getId() == 313)
+                                return true;
 
                             return false;
 
                         } else if (Variables.chosenFishingType == Util.FishingTypes.TYPE_HARPOON_TUNA) {
-                            if(npc.getId() == 320 || npc.getId() == 312 || npc.getId() == 324)
+                            if (npc.getId() == 320 || npc.getId() == 312 || npc.getId() == 324)
                                 return true;
 
                             return false;
@@ -193,10 +183,10 @@ public class Util {
     }
 
     public static void dropFish(int i) {
-        for(Item item : Inventory.getItems()) {
-            if(item.getId() == i) {
+        for (Item item : Inventory.getItems()) {
+            if (item.getId() == i) {
                 item.getWidgetChild().interact("Drop");
-                Time.sleep(200, 300);
+                Task.sleep(200, 300);
             }
         }
     }

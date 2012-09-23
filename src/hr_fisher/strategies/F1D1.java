@@ -8,23 +8,22 @@ package hr_fisher.strategies;/*
 */
 
 import hr_fisher.user.Variables;
-import org.powerbot.concurrent.strategy.Strategy;
+import org.powerbot.core.script.job.Task;
+import org.powerbot.core.script.job.state.Node;
 import org.powerbot.game.api.methods.tab.Inventory;
 import org.powerbot.game.api.methods.widget.DepositBox;
-import org.powerbot.game.api.util.Time;
 import org.powerbot.game.api.wrappers.node.Item;
-import hr_fisher.user.Variables;
 
-public class F1D1 extends Strategy implements Runnable {
+public class F1D1 extends Node {
 
     @Override
-    public void run() {
+    public void execute() {
         Variables.isDropping = true;
-        for(Item i : Inventory.getItems()) {
-            for(int fish : Variables.chosenFishingType.getPossibleFish()) {
-                if(i.getId() == fish) {
+        for (Item i : Inventory.getItems()) {
+            for (int fish : Variables.chosenFishingType.getPossibleFish()) {
+                if (i.getId() == fish) {
                     i.getWidgetChild().interact("Drop");
-                    Time.sleep(400, 500);
+                    Task.sleep(400, 500);
                     break;
                 }
             }
@@ -33,8 +32,8 @@ public class F1D1 extends Strategy implements Runnable {
     }
 
     @Override
-    public boolean validate() {
-        if(DepositBox.isOpen())
+    public boolean activate() {
+        if (DepositBox.isOpen())
             return false;
 
         return Inventory.getCount(Variables.chosenFishingType.getPossibleFish()) > 0;

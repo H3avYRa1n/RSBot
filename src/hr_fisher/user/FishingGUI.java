@@ -2,16 +2,16 @@ package hr_fisher.user;
 
 import hr_fisher.locations.BarbarianAssault;
 import hr_fisher.locations.Karamja;
-import hr_fisher.locations.Karamja;
 import org.powerbot.game.api.methods.tab.Skills;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.IOException;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
-import javax.swing.border.*;
+import javax.swing.border.EtchedBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.io.IOException;
 
 
 // Created using JFormDesigner
@@ -34,24 +34,27 @@ public class FishingGUI extends JFrame {
         f1d1RadioButton.setSelected(false);
         bankRadioButton.setSelected(true);
     }
+
     private void stilesActionPerformed(ActionEvent e) {
         powerFishRadioButton.setSelected(false);
         bankRadioButton.setSelected(false);
         f1d1RadioButton.setSelected(false);
         stilesRadioButton.setSelected(true);
     }
+
     private void f1d1ActionPerformed(ActionEvent e) {
         powerFishRadioButton.setSelected(false);
         bankRadioButton.setSelected(false);
         stilesRadioButton.setSelected(false);
         f1d1RadioButton.setSelected(true);
     }
+
     private void startButtonPressed(ActionEvent e) {
-        if(powerFishRadioButton.isSelected())
+        if (powerFishRadioButton.isSelected())
             Variables.bankingType = Variables.TYPE_POWERFISH;
-        else if(bankRadioButton.isSelected())
+        else if (bankRadioButton.isSelected())
             Variables.bankingType = Variables.TYPE_BANK;
-        else if(stilesRadioButton.isSelected()) Variables.bankingType = Variables.TYPE_STILES;
+        else if (stilesRadioButton.isSelected()) Variables.bankingType = Variables.TYPE_STILES;
         else Variables.bankingType = Variables.TYPE_F1D1;
 
 
@@ -65,7 +68,7 @@ public class FishingGUI extends JFrame {
         Variables.fishCaught = new int[Variables.chosenFishingType.getPossibleFish().length];
         Variables.fishPrice = new int[Variables.fishCaught.length];
 
-        for(int i = 0; i < Variables.fishPrice.length; i++) {
+        for (int i = 0; i < Variables.fishPrice.length; i++) {
             try {
                 Variables.fishPrice[i] = Util.getPriceOfItem(Variables.chosenFishingType.getPossibleFish()[i]);
             } catch (IOException e1) {
@@ -82,32 +85,31 @@ public class FishingGUI extends JFrame {
         Util.FishingTypes[] fishingTypes = Variables.locations[locationComboBox.getSelectedIndex()].getFishingTypes();
         String[] model = new String[fishingTypes.length];
 
-        for(int i = 0; i < fishingTypes.length; i++) {
+        for (int i = 0; i < fishingTypes.length; i++) {
             model[i] = fishingTypes[i].getName();
         }
 
         typeComboBox.setModel(new DefaultComboBoxModel<>(model));
 
-        if(Variables.locations[locationComboBox.getSelectedIndex()] instanceof Karamja) {
+        if (Variables.locations[locationComboBox.getSelectedIndex()] instanceof Karamja) {
             stilesRadioButton.setEnabled(true);
-        } else if(stilesRadioButton.isEnabled()) {
-            if(stilesRadioButton.isSelected()) {
+        } else if (stilesRadioButton.isEnabled()) {
+            if (stilesRadioButton.isSelected()) {
                 bankRadioButton.setSelected(true);
             }
             stilesRadioButton.setSelected(false);
             stilesRadioButton.setEnabled(false);
         }
 
-        if(Variables.locations[locationComboBox.getSelectedIndex()] instanceof BarbarianAssault) {
-            if(bankRadioButton.isSelected())
-            {
+        if (Variables.locations[locationComboBox.getSelectedIndex()] instanceof BarbarianAssault) {
+            if (bankRadioButton.isSelected()) {
                 powerFishRadioButton.setSelected(true);
             }
 
             bankRadioButton.setSelected(false);
             bankRadioButton.setEnabled(false);
 
-        } else if(!bankRadioButton.isEnabled()) {
+        } else if (!bankRadioButton.isEnabled()) {
 
             bankRadioButton.setEnabled(true);
         }
@@ -119,13 +121,14 @@ public class FishingGUI extends JFrame {
 
     private void typeBoxChanged(ItemEvent e) {
         Util.FishingTypes chosenFishingType = Variables.locations[locationComboBox.getSelectedIndex()].getFishingTypes()[typeComboBox.getSelectedIndex()];
-        if(chosenFishingType != Util.FishingTypes.TYPE_HARPOON_TUNA) {
+        if (chosenFishingType != Util.FishingTypes.TYPE_HARPOON_TUNA) {
             dropTunaCheckBox.setSelected(false);
             dropTunaCheckBox.setEnabled(false);
         } else {
             dropTunaCheckBox.setEnabled(true);
         }
     }
+
     private void initComponents() {
 
         headerLabel = new JLabel();
@@ -150,7 +153,7 @@ public class FishingGUI extends JFrame {
         Container contentPane = getContentPane();
 
         //---- headerLabel ----
-        headerLabel.setText("AIO Fisher v1.3");
+        headerLabel.setText("AIO Fisher v1.4");
         headerLabel.setHorizontalAlignment(SwingConstants.CENTER);
         headerLabel.setFont(headerLabel.getFont().deriveFont(headerLabel.getFont().getSize() + 4f));
 
@@ -173,7 +176,7 @@ public class FishingGUI extends JFrame {
 
             //---- locationComboBox ----
             String[] locationsModel = new String[Variables.locations.length];
-            for(int i = 0; i < locationsModel.length; i++) {
+            for (int i = 0; i < locationsModel.length; i++) {
                 locationsModel[i] = Variables.locations[i].getLocationName();
             }
 
@@ -192,7 +195,7 @@ public class FishingGUI extends JFrame {
             Util.FishingTypes[] fishingTypes = Variables.locations[locationComboBox.getSelectedIndex()].getFishingTypes();
             String[] model = new String[fishingTypes.length];
 
-            for(int i = 0; i < fishingTypes.length; i++) {
+            for (int i = 0; i < fishingTypes.length; i++) {
                 model[i] = fishingTypes[i].getName();
             }
 

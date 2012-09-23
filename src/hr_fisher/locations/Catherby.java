@@ -7,12 +7,12 @@ package hr_fisher.locations;/*
     
 */
 
-import org.powerbot.game.api.wrappers.Tile;
 import hr_fisher.user.Util;
+import org.powerbot.game.api.wrappers.Tile;
 
 public class Catherby extends Location {
 
-    public static final Tile[] TILES_TO_BANK = new Tile[] {
+    public static final Tile[] TILES_TO_BANK = new Tile[]{
             new Tile(2859, 3425, 0), new Tile(2854, 3425, 0), new Tile(2849, 3427, 0),
             new Tile(2844, 3430, 0), new Tile(2839, 3432, 0), new Tile(2834, 3433, 0),
             new Tile(2829, 3435, 0), new Tile(2824, 3436, 0), new Tile(2819, 3435, 0),

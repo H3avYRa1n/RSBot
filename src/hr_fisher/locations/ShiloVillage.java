@@ -7,9 +7,9 @@ package hr_fisher.locations;/*
     
 */
 
+import hr_fisher.user.Condition;
 import hr_fisher.user.Util;
 import hr_fisher.user.Variables;
-import org.powerbot.concurrent.strategy.Condition;
 import org.powerbot.game.api.methods.Calculations;
 import org.powerbot.game.api.methods.Walking;
 import org.powerbot.game.api.methods.interactive.NPCs;

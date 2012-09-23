@@ -7,50 +7,46 @@ package hr_fisher.strategies;/*
     
 */
 
+import hr_fisher.user.Condition;
 import hr_fisher.user.Util;
 import hr_fisher.user.Variables;
-import org.powerbot.concurrent.strategy.Condition;
-import org.powerbot.concurrent.strategy.Strategy;
-import org.powerbot.game.api.methods.Calculations;
+import org.powerbot.core.script.job.Task;
+import org.powerbot.core.script.job.state.Node;
 import org.powerbot.game.api.methods.Game;
-import org.powerbot.game.api.methods.Walking;
-import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.tab.Inventory;
 import org.powerbot.game.api.methods.widget.Bank;
 import org.powerbot.game.api.methods.widget.Camera;
 import org.powerbot.game.api.methods.widget.DepositBox;
 import org.powerbot.game.api.util.Filter;
-import org.powerbot.game.api.util.Time;
 import org.powerbot.game.api.wrappers.Entity;
 import org.powerbot.game.api.wrappers.Locatable;
-import org.powerbot.game.api.wrappers.map.TilePath;
 import org.powerbot.game.api.wrappers.node.Item;
 
-public class WithdrawNeededItems extends Strategy implements Runnable {
+public class WithdrawNeededItems extends Node {
     @Override
-    public void run() {
+    public void execute() {
 
-        if(Util.hasNeededItems()) {
+        if (Util.hasNeededItems()) {
             return;
         }
 
         Entity bank = Bank.getNearest();
 
-        if(bank != null) {
-            if(bank.isOnScreen()) {
-                Camera.turnTo((Locatable)bank);
-                if(!Bank.isOpen()) {
+        if (bank != null) {
+            if (bank.isOnScreen()) {
+                Camera.turnTo((Locatable) bank);
+                if (!Bank.isOpen()) {
                     Bank.open();
-                    Time.sleep(1000, 2000);
+                    Task.sleep(1000, 2000);
                 } else {
                     int[] neededItems = Variables.chosenFishingType.getNeededItems();
-                    for(int i : neededItems) {
+                    for (int i : neededItems) {
                         final int temp = i;
 
-                        if(Inventory.getCount(true, i) != 0)
+                        if (Inventory.getCount(true, i) != 0)
                             continue;
 
-                        if(Bank.getItemCount(true, i) == 0) {
+                        if (Bank.getItemCount(true, i) == 0) {
                             Util.logout();
                             Util.waitFor(120 * 1000, new Condition() {
                                 @Override
@@ -61,7 +57,7 @@ public class WithdrawNeededItems extends Strategy implements Runnable {
                             return;
                         }
 
-                        if(i == Variables.ITEM_FEATHER || i == Variables.ITEM_BAIT) {
+                        if (i == Variables.ITEM_FEATHER || i == Variables.ITEM_BAIT) {
                             Bank.withdraw(i, Bank.getItemCount(true, i));
 
                             Util.waitFor(7000, new Condition() {
@@ -70,7 +66,7 @@ public class WithdrawNeededItems extends Strategy implements Runnable {
                                     return Inventory.getCount(true, temp) > 0;
                                 }
                             });
-                            Time.sleep(750, 1000);
+                            Task.sleep(750, 1000);
 
                         } else {
 
@@ -82,7 +78,7 @@ public class WithdrawNeededItems extends Strategy implements Runnable {
                                     return Inventory.getCount(true, temp) > 0;
                                 }
                             });
-                            Time.sleep(750, 1000);
+                            Task.sleep(750, 1000);
                         }
 
                     }
@@ -90,15 +86,15 @@ public class WithdrawNeededItems extends Strategy implements Runnable {
                     Item[] toDeposit = Inventory.getItems(new Filter<Item>() {
                         @Override
                         public boolean accept(Item item) {
-                            for(int j : Variables.chosenFishingType.getNeededItems()) {
-                                if(j == item.getId())
+                            for (int j : Variables.chosenFishingType.getNeededItems()) {
+                                if (j == item.getId())
                                     return false;
                             }
                             return true;
                         }
                     });
 
-                    for(Item i : toDeposit) {
+                    for (Item i : toDeposit) {
 
                         final int itemID = i.getId();
                         Bank.deposit(itemID, Inventory.getCount(true, itemID));
@@ -116,7 +112,7 @@ public class WithdrawNeededItems extends Strategy implements Runnable {
     }
 
     @Override
-    public boolean validate() {
+    public boolean activate() {
         return Variables.hasStarted && !DepositBox.isOpen() && !Util.hasNeededItems();
     }
 }

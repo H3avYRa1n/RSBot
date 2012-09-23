@@ -7,17 +7,17 @@ package hr_fisher.strategies;/*
     
 */
 
-import org.powerbot.concurrent.strategy.Strategy;
+import org.powerbot.core.script.job.state.Node;
 import org.powerbot.game.api.methods.widget.Camera;
 
-public class FixCamera extends Strategy implements Runnable {
+public class FixCamera extends Node {
     @Override
-    public void run() {
+    public void execute() {
         Camera.setPitch(94);
     }
 
     @Override
-    public boolean validate() {
+    public boolean activate() {
         return Camera.getPitch() != 94;
     }
 }
