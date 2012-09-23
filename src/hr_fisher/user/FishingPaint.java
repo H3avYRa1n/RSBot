@@ -18,7 +18,7 @@ import java.net.URL;
 
 public class FishingPaint {
 
-    public static final String IMAGE_LOCATION = "http://i48.tinypic.com/34q0f9u.jpg";
+    public static final String IMAGE_LOCATION = "http://i50.tinypic.com/osu5vd.jpg";
 
     public static Image img = null;
     public static boolean shouldHide = false;
