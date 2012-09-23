@@ -52,6 +52,7 @@ public class Location {
         if (!Players.getLocal().isMoving()
                 || Calculations.distanceTo(Walking.getDestination()) < 5) {
 
+            System.out.println("Walking to fishing spot.");
             NPC closestFishingSpot = Util.getClosestFishingSpot();
 
             if (closestFishingSpot != null && closestFishingSpot.isOnScreen()
@@ -63,6 +64,7 @@ public class Location {
             if (pathToBank != null) {
                 pathToBank.reverse();
                 if (pathToBank.traverse()) {
+                    System.out.println("Path traversed.");
                     Util.waitFor(5000, new Condition() {
                         @Override
                         public boolean validate() {

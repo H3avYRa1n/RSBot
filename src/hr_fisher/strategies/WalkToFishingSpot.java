@@ -9,6 +9,7 @@ package hr_fisher.strategies;/*
 
 import hr_fisher.user.Util;
 import hr_fisher.user.Variables;
+import org.powerbot.core.script.job.Task;
 import org.powerbot.core.script.job.state.Node;
 import org.powerbot.game.api.methods.Calculations;
 import org.powerbot.game.api.methods.Walking;
@@ -23,6 +24,7 @@ public class WalkToFishingSpot extends Node {
     public void execute() {
         if (!Players.getLocal().isMoving() || Calculations.distanceTo(Walking.getDestination()) < 5) {
             Variables.chosenLocation.walkToFishingSpot();
+            Task.sleep(2000, 2500);
         }
     }
 
