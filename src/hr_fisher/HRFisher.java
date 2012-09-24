@@ -116,7 +116,7 @@ public class HRFisher extends ActiveScript implements PaintListener, MessageList
                 job.join();
             }
 
-            return 1;
+            return 300;
         }
     }
 
@@ -138,6 +138,11 @@ public class HRFisher extends ActiveScript implements PaintListener, MessageList
             if (message.contains("You catch a " + fishNames[i])) {
                 Variables.fishCaught[i]++;
             } else if (message.contains("You catch some " + fishNames[i])) {
+                Variables.fishCaught[i]++;
+            }
+
+
+            if(message.contains("Your quick") && message.contains(fishNames[i])) {
                 Variables.fishCaught[i]++;
             }
         }
