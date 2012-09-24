@@ -54,6 +54,7 @@ public class WithdrawNeededItems extends Node {
                                     return !Game.isLoggedIn();
                                 }
                             });
+
                             return;
                         }
 

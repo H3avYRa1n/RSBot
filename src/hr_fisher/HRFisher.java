@@ -5,25 +5,33 @@
 
    Changelog
    ---------
-   September 07, 2012 - v1.0 -
-       + Initial release
+    September 07, 2012 - v1.0 -
+        + Initial release
 
-   September 14, 2012 - v1.1 -
-       + ADDED: Option to show/hide paint and fixed logging out unexpectedly.
+    September 14, 2012 - v1.1 -
+        + ADDED: Option to show/hide paint and fixed logging out unexpectedly.
 
-   September 15, 2012 - v1.1.1 -
-       + FIXED: Shilo Village fishing.
-       + FIXED: Scriptnot working if items were in toolbelt.
-       + ADDED: Option to fish at shark spots of swordfish spots if harpooning
+    September 15, 2012 - v1.1.1 -
+        + FIXED: Shilo Village fishing.
+        + FIXED: Scriptnot working if items were in toolbelt.
+        + ADDED: Option to fish at shark spots of swordfish spots if harpooning
 
-   September 16, 2012 - v1.2 -
-       + ADDED: Dropping random event items
-       + ADDED: Piscatoris Fishing Colony spot
-       + ADDED: Barbarian Assault spot
+    September 16, 2012 - v1.2 -
+        + ADDED: Dropping random event items
+        + ADDED: Piscatoris Fishing Colony spot
+        + ADDED: Barbarian Assault spot
 
-   September 19, 2012 - v1.3 -
-       + ADDED: Depositing all fish into bank from inventory, not just ones from selected fishing type
-       + FIXED: Not fishing correctly at Karamja for harpoons
+    September 19, 2012 - v1.3 -
+        + ADDED: Depositing all fish into bank from inventory, not just ones from selected fishing type
+        + FIXED: Not fishing correctly at Karamja for harpoons
+
+    September 23, 2012 - v1.4 -
+        + ADDED: 4.1 framework implementation.
+        + ADDED: Faster fish-dropping speed for power-fishing.
+
+    September 24, 2012 - v1.4.1 -
+        + FIXED: The bunch of problems that were caused as a result of the new framework.
+
 */
 
 package hr_fisher;
@@ -40,6 +48,7 @@ import org.powerbot.core.script.job.state.Node;
 import org.powerbot.core.script.job.state.Tree;
 import org.powerbot.game.api.Manifest;
 import org.powerbot.game.api.util.Random;
+import org.powerbot.game.bot.Context;
 
 import javax.swing.*;
 import java.awt.*;
@@ -47,10 +56,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 @Manifest(
-        name = "HR Fisher v1.4",
+        name = "HR Fisher v1.4.1",
         description = "Fishes almost all types of fish in many different locations.",
         authors = "H3avY Ra1n",
-        version = 1.4,
+        version = 1.41,
         website = "http://www.powerbot.org/community/topic/793227-hrfisher-aiofisher/"
 )
 
@@ -107,7 +116,7 @@ public class HRFisher extends ActiveScript implements PaintListener, MessageList
                 job.join();
             }
 
-            return 0;
+            return 1;
         }
     }
 

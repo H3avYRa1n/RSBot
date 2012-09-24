@@ -7,6 +7,7 @@ package hr_fisher.strategies;/*
     
 */
 
+import hr_fisher.locations.Karamja;
 import hr_fisher.user.Util;
 import hr_fisher.user.Variables;
 import org.powerbot.core.script.job.Task;
@@ -17,6 +18,7 @@ import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.tab.Inventory;
 import org.powerbot.game.api.methods.widget.Bank;
 import org.powerbot.game.api.methods.widget.DepositBox;
+import org.powerbot.game.api.wrappers.interactive.NPC;
 
 public class WalkToFishingSpot extends Node {
 
@@ -45,9 +47,12 @@ public class WalkToFishingSpot extends Node {
         if (Bank.isOpen() && Inventory.getCount(Variables.chosenFishingType.getPossibleFish()) > 0)
             return false;
 
+        NPC closestFishingSpot = Util.getClosestFishingSpot();
+
         return Util.hasNeededItems()
                 && !Inventory.isFull()
-                && Players.getLocal().getAnimation() == -1;
+                && Players.getLocal().getAnimation() == -1
+                && (closestFishingSpot == null || !closestFishingSpot.isOnScreen());
 
     }
 }

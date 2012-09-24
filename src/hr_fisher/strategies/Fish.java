@@ -27,21 +27,7 @@ import org.powerbot.game.api.wrappers.map.LocalPath;
 public class Fish extends Node {
     @Override
     public void execute() {
-        NPC closestFishingSpot = null;
-        if (Variables.chosenLocation instanceof ShiloVillage)
-            closestFishingSpot = NPCs.getNearest(new Filter<NPC>() {
-                public boolean accept(NPC npc) {
-                    String[] actions = npc.getActions();
-                    for (String s : actions) {
-                        if (s != null && s.contains(Variables.chosenFishingType.getInteractString())) {
-                            return ShiloVillage.SOUTHERN_AREA.contains(npc.getLocation());
-                        }
-                    }
-
-                    return false;
-                }
-            });
-        else closestFishingSpot = Util.getClosestFishingSpot();
+        NPC closestFishingSpot = Util.getClosestFishingSpot();
 
         if (closestFishingSpot != null && Calculations.distanceTo(closestFishingSpot.getLocation()) < 20) {
             if (closestFishingSpot.isOnScreen()) {
