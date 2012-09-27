@@ -60,7 +60,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 @Manifest(
-        name = "HR Fisher v1.4.1",
+        name = "HR Fisher v1.4.2",
         description = "Fishes almost all types of fish in many different locations.",
         authors = "H3avY Ra1n",
         version = 1.42,
