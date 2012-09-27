@@ -24,9 +24,7 @@ public class WalkToBank extends Node {
         if (Util.dropTuna())
             return;
 
-        if (!Players.getLocal().isMoving() || Calculations.distanceTo(Walking.getDestination()) < 5) {
-            Variables.chosenLocation.walkToBank();
-        }
+        Variables.chosenLocation.walkToBank();
     }
 
     @Override

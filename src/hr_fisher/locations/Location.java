@@ -2,9 +2,11 @@ package hr_fisher.locations;
 
 import hr_fisher.user.Condition;
 import hr_fisher.user.Util;
+import org.powerbot.core.script.job.Task;
 import org.powerbot.game.api.methods.Calculations;
 import org.powerbot.game.api.methods.Walking;
 import org.powerbot.game.api.methods.interactive.Players;
+import org.powerbot.game.api.util.Time;
 import org.powerbot.game.api.wrappers.Tile;
 import org.powerbot.game.api.wrappers.interactive.NPC;
 import org.powerbot.game.api.wrappers.map.TilePath;
@@ -29,49 +31,27 @@ public class Location {
     }
 
     public void walkToBank() {
-        if (!Players.getLocal().isMoving()
-                || Calculations.distanceTo(Walking.getDestination()) < 5) {
+        TilePath pathToBank = new TilePath(tilesToBank);
 
-            TilePath pathToBank = new TilePath(tilesToBank);
-
-            if (pathToBank != null) {
-                if (pathToBank.traverse()) {
-                    Util.waitFor(3000, new Condition() {
-                        @Override
-                        public boolean validate() {
-                            return !Players.getLocal().isMoving()
-                                    || Calculations.distanceTo(Walking.getDestination()) < 5;
-                        }
-                    });
-                }
-            }
+        if (pathToBank != null) {
+            pathToBank.traverse();
+            Task.sleep(1000, 1500);
         }
     }
 
     public void walkToFishingSpot() {
-        if (!Players.getLocal().isMoving()
-                || Calculations.distanceTo(Walking.getDestination()) < 5) {
+        NPC closestFishingSpot = Util.getClosestFishingSpot();
 
-            NPC closestFishingSpot = Util.getClosestFishingSpot();
+        if (closestFishingSpot != null && closestFishingSpot.isOnScreen()
+                && Calculations.distanceTo(closestFishingSpot) < 5) {
+            return;
+        }
 
-            if (closestFishingSpot != null && closestFishingSpot.isOnScreen()
-                    && Calculations.distanceTo(closestFishingSpot) < 5) {
-                return;
-            }
+        TilePath pathToBank = new TilePath(tilesToBank);
 
-            TilePath pathToBank = new TilePath(tilesToBank);
-
-            if (pathToBank != null) {
-                pathToBank.reverse();
-                if (pathToBank.traverse()) {
-                    Util.waitFor(5000, new Condition() {
-                        @Override
-                        public boolean validate() {
-                            return !Players.getLocal().isMoving() || Calculations.distanceTo(Walking.getDestination()) < 5;
-                        }
-                    });
-                }
-            }
+        if (pathToBank != null) {
+            pathToBank.reverse().traverse();
+            Task.sleep(1000, 1500);
         }
     }
 }

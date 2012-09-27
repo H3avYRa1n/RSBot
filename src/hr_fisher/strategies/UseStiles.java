@@ -39,21 +39,10 @@ public class UseStiles extends Node {
             });
         } else {
 
-            if (!Players.getLocal().isMoving()
-                    || Calculations.distanceTo(Walking.getDestination()) < 5) {
+            TilePath pathToStiles = new TilePath(Karamja.TILES_FISHING_SPOT_TO_STILES);
 
-                TilePath pathToStiles = new TilePath(Karamja.TILES_FISHING_SPOT_TO_STILES);
-
-                if (pathToStiles != null) {
-                    if (pathToStiles.traverse()) {
-                        Util.waitFor(3000, new Condition() {
-                            @Override
-                            public boolean validate() {
-                                return !Players.getLocal().isMoving() || Calculations.distanceTo(Walking.getDestination()) < 5;
-                            }
-                        });
-                    }
-                }
+            if (pathToStiles != null) {
+                pathToStiles.traverse();
             }
         }
     }

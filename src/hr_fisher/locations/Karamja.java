@@ -17,6 +17,7 @@ import org.powerbot.game.api.methods.interactive.NPCs;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.node.SceneEntities;
 import org.powerbot.game.api.methods.widget.Camera;
+import org.powerbot.game.api.util.Time;
 import org.powerbot.game.api.wrappers.Area;
 import org.powerbot.game.api.wrappers.Tile;
 import org.powerbot.game.api.wrappers.interactive.NPC;
@@ -134,11 +135,8 @@ public class Karamja extends Location {
             } else {
 
                 TilePath path = new TilePath(Karamja.TILES_DOCK_TO_FISHING_SPOT);
-                path.reverse();
-
-                if (path.traverse()) {
-                    Task.sleep(1000, 2000);
-                }
+                path.reverse().traverse();
+                Task.sleep(1000, 1500);
             }
         } else {
             SceneObject gangPlank = SceneEntities.getNearest(PLANK_IDS);
@@ -167,14 +165,8 @@ public class Karamja extends Location {
             TilePath pathToFishingSpot = new TilePath(Karamja.TILES_FISHING_SPOT_TO_STILES).reverse();
 
             if (pathToFishingSpot != null) {
-                if (pathToFishingSpot.traverse()) {
-                    Util.waitFor(3000, new Condition() {
-                        @Override
-                        public boolean validate() {
-                            return !Players.getLocal().isMoving() || Calculations.distanceTo(Walking.getDestination()) < 5;
-                        }
-                    });
-                }
+                pathToFishingSpot.traverse();
+                Task.sleep(1000, 1500);
             }
 
         } else if (Karamja.KARAMJA_AREA.contains(Players.getLocal().getLocation())) {
@@ -183,10 +175,10 @@ public class Karamja extends Location {
             NPC closestFishingSpot = Util.getClosestFishingSpot();
 
             if (Calculations.distanceTo(pathToFishingSpot.getEnd()) < 10 && !closestFishingSpot.isOnScreen()) {
-
                 Camera.turnTo(closestFishingSpot);
-            } else if (pathToFishingSpot.traverse()) {
-                Task.sleep(1000, 2000);
+            } else {
+                pathToFishingSpot.traverse();
+                Task.sleep(1000, 1500);
             }
 
         } else {
@@ -236,16 +228,8 @@ public class Karamja extends Location {
                     TilePath pathToDock = new TilePath(Karamja.TILES_PORT_SARIM_TO_BANK);
 
                     if (pathToDock != null) {
-                        pathToDock.reverse();
-
-                        if (pathToDock.traverse()) {
-                            Util.waitFor(2000, new Condition() {
-                                @Override
-                                public boolean validate() {
-                                    return !Players.getLocal().isMoving() || Calculations.distanceTo(Walking.getDestination()) < 5;
-                                }
-                            });
-                        }
+                        pathToDock.reverse().traverse();
+                        Task.sleep(1000, 1500);
                     }
                 }
             }

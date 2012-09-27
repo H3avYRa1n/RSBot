@@ -32,6 +32,10 @@
     September 24, 2012 - v1.4.1 -
         + FIXED: The bunch of problems that were caused as a result of the new framework.
 
+    September 26, 2012 - v1.4.2 -
+        + IMPROVED: Walking method for walking to fishing spot and bank
+        + FIXED: Many of the bugs resulting from the change in framework
+
 */
 
 package hr_fisher;
@@ -59,7 +63,7 @@ import java.awt.event.MouseListener;
         name = "HR Fisher v1.4.1",
         description = "Fishes almost all types of fish in many different locations.",
         authors = "H3avY Ra1n",
-        version = 1.41,
+        version = 1.42,
         website = "http://www.powerbot.org/community/topic/793227-hrfisher-aiofisher/"
 )
 

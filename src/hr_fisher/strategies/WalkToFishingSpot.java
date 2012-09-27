@@ -17,6 +17,7 @@ import org.powerbot.game.api.methods.Walking;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.tab.Inventory;
 import org.powerbot.game.api.methods.widget.Bank;
+import org.powerbot.game.api.methods.widget.Camera;
 import org.powerbot.game.api.methods.widget.DepositBox;
 import org.powerbot.game.api.wrappers.interactive.NPC;
 
@@ -24,10 +25,8 @@ public class WalkToFishingSpot extends Node {
 
     @Override
     public void execute() {
-        if (!Players.getLocal().isMoving() || Calculations.distanceTo(Walking.getDestination()) < 5) {
-            Variables.chosenLocation.walkToFishingSpot();
-            Task.sleep(2000, 2500);
-        }
+
+        Variables.chosenLocation.walkToFishingSpot();
     }
 
     @Override
@@ -48,6 +47,11 @@ public class WalkToFishingSpot extends Node {
             return false;
 
         NPC closestFishingSpot = Util.getClosestFishingSpot();
+
+        if(closestFishingSpot != null && Calculations.distanceTo(closestFishingSpot) < 10)
+        {
+            return false;
+        }
 
         return Util.hasNeededItems()
                 && !Inventory.isFull()
