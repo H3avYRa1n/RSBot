@@ -177,7 +177,7 @@ public class FishingGUI extends JFrame {
             //---- locationComboBox ----
             String[] locationsModel = new String[Variables.locations.length];
             for (int i = 0; i < locationsModel.length; i++) {
-                locationsModel[i] = Variables.locations[i].getLocationName();
+                locationsModel[i] = Variables.locations[i].toString();
             }
 
             locationComboBox.setModel(new DefaultComboBoxModel<>(locationsModel));

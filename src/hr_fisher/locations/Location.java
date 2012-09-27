@@ -26,10 +26,6 @@ public class Location {
         return fishingTypes;
     }
 
-    public String getLocationName() {
-        return locationName;
-    }
-
     public void walkToBank() {
         TilePath pathToBank = new TilePath(tilesToBank);
 
@@ -53,5 +49,10 @@ public class Location {
             pathToBank.reverse().traverse();
             Task.sleep(1000, 1500);
         }
+    }
+
+    @Override
+    public String toString() {
+        return locationName;
     }
 }
