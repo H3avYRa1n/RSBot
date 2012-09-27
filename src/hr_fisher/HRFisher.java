@@ -91,20 +91,20 @@ public class HRFisher extends ActiveScript implements PaintListener, MessageList
 
                 switch (Variables.bankingType) {
                     case Variables.TYPE_BANK:
-                        jobs = new Tree(new Node[]{new WithdrawNeededItems(), new WalkToFishingSpot(),
-                                new Fish(), new Antiban(), new FixCamera(), new WalkToBank(), new DepositFish()});
+                        jobs = new Tree(new Node[]{new DepositFish(),  new WalkToBank(),
+                                new WithdrawNeededItems(), new WalkToFishingSpot(), new Fish(), new FixCamera(), new Antiban()});
                         break;
                     case Variables.TYPE_POWERFISH:
-                        jobs = new Tree(new Node[]{new WithdrawNeededItems(), new WalkToFishingSpot(),
-                                new Fish(), new Antiban(), new FixCamera(), new DropFish()});
+                        jobs = new Tree(new Node[]{new FixCamera(), new WithdrawNeededItems(), new WalkToFishingSpot(),
+                                new Fish(), new DropFish(), new FixCamera(), new Antiban()});
                         break;
                     case Variables.TYPE_STILES:
                         jobs = new Tree(new Node[]{new WithdrawNeededItems(), new WalkToFishingSpot(),
-                                new Fish(), new Antiban(), new FixCamera(), new UseStiles()});
+                                new Fish(), new UseStiles(), new FixCamera(), new Antiban()});
                         break;
                     default:
                         jobs = new Tree(new Node[]{new WithdrawNeededItems(), new WalkToFishingSpot(),
-                                new Fish(), new Antiban(), new FixCamera(), new F1D1()});
+                                new F1D1(), new Fish(), new FixCamera(), new Antiban()});
                 }
             }
 
@@ -139,11 +139,8 @@ public class HRFisher extends ActiveScript implements PaintListener, MessageList
                 Variables.fishCaught[i]++;
             } else if (message.contains("You catch some " + fishNames[i])) {
                 Variables.fishCaught[i]++;
-            }
-
-
-            if(message.contains("Your quick") && message.contains(fishNames[i])) {
-                Variables.fishCaught[i]++;
+            } else if(message.contains("Your quick") && message.contains(fishNames[i])) {
+                Variables.fishCaught[i] += 2;
             }
         }
     }

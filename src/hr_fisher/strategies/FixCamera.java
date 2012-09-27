@@ -13,11 +13,11 @@ import org.powerbot.game.api.methods.widget.Camera;
 public class FixCamera extends Node {
     @Override
     public void execute() {
-        Camera.setPitch(94);
+        Camera.setPitch(90);
     }
 
     @Override
     public boolean activate() {
-        return Camera.getPitch() != 94;
+        return Camera.getPitch() < 90;
     }
 }

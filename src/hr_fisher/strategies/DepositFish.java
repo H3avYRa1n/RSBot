@@ -57,8 +57,16 @@ public class DepositFish extends Node {
 
         Entity closestBank = Bank.getNearest();
 
+        boolean shouldBank = false;
+        for (Util.FishingTypes fishingTypes : Util.FishingTypes.values()) {
+            int[] itemsToDeposit = fishingTypes.getPossibleFish();
+            for (int i : itemsToDeposit) {
+                if(Inventory.getCount(true, i) > 0)
+                    shouldBank = true;
+            }
+        }
         return Variables.hasStarted && closestBank != null && closestBank.isOnScreen()
-                && (Inventory.isFull() || (Bank.isOpen() && Inventory.getCount(Variables.chosenFishingType.getPossibleFish()) > 0));
+                && (Inventory.isFull() || (shouldBank));
 
     }
 }

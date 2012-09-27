@@ -23,7 +23,7 @@ public class F1D1 extends Node {
             for (int fish : Variables.chosenFishingType.getPossibleFish()) {
                 if (i.getId() == fish) {
                     i.getWidgetChild().interact("Drop");
-                    Task.sleep(400, 500);
+                    Task.sleep(100, 150);
                     break;
                 }
             }
