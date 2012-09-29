@@ -7,6 +7,7 @@ package hr_fisher.locations;/*
     
 */
 
+import hr_fisher.banking.KaramjaBank;
 import hr_fisher.user.Condition;
 import hr_fisher.user.Util;
 import org.powerbot.core.script.job.Task;
@@ -79,6 +80,7 @@ public class Karamja extends Location {
 
     public Karamja() {
         super(TILES_PORT_SARIM_TO_BANK, TYPES_AVAILABLE, "Karamja");
+        bankingMethod = new KaramjaBank();
     }
 
     @Override

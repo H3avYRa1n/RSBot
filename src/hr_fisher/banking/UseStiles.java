@@ -1,4 +1,4 @@
-package hr_fisher.strategies;/*
+package hr_fisher.banking;/*
     Name:
     Version:
     Author(s):
@@ -10,20 +10,20 @@ package hr_fisher.strategies;/*
 import hr_fisher.locations.Karamja;
 import hr_fisher.user.Condition;
 import hr_fisher.user.Util;
-import org.powerbot.core.script.job.state.Node;
-import org.powerbot.game.api.methods.Calculations;
-import org.powerbot.game.api.methods.Walking;
+import hr_fisher.user.Variables;
 import org.powerbot.game.api.methods.interactive.NPCs;
-import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.tab.Inventory;
-import org.powerbot.game.api.methods.widget.DepositBox;
 import org.powerbot.game.api.wrappers.interactive.NPC;
 import org.powerbot.game.api.wrappers.map.TilePath;
 
-public class UseStiles extends Node {
+public class UseStiles implements BankingMethod {
+    @Override
+    public boolean shouldBank() {
+        return Variables.hasStarted && (Inventory.isFull() || !Util.hasNeededItems());
+    }
 
     @Override
-    public void execute() {
+    public void bank() {
         if (Util.dropTuna())
             return;
 
@@ -45,12 +45,5 @@ public class UseStiles extends Node {
                 pathToStiles.traverse();
             }
         }
-    }
-
-    @Override
-    public boolean activate() {
-        if (DepositBox.isOpen())
-            return false;
-        return Inventory.isFull();
     }
 }

@@ -7,6 +7,7 @@ package hr_fisher.locations;/*
     
 */
 
+import hr_fisher.banking.LumbridgeBank;
 import hr_fisher.user.Condition;
 import hr_fisher.user.Util;
 import org.powerbot.core.script.job.Task;
@@ -45,6 +46,8 @@ public class Lumbridge extends Location {
 
     public Lumbridge() {
         super(TILES_LADDER_TO_BANK, TYPES_AVAILABLE, "Lumbridge");
+
+        bankingMethod = new LumbridgeBank();
     }
 
     @Override

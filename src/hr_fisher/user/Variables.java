@@ -11,7 +11,9 @@ import hr_fisher.locations.*;
 
 public class Variables {
 
-    public static final int[] RANDOM_EVENT_ITEM_IDS = new int[]{6961, 6963, 14664};
+    public static final double VERSION = 1.5;
+
+    public static final int[] ITEMS_TO_DROP = new int[]{6961, 6963, 14664};
 
     public static final int ITEM_FEATHER = 314;
     public static final int ITEM_BAIT = 313;

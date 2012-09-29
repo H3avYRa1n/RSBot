@@ -1,4 +1,4 @@
-package hr_fisher.strategies;/*
+package hr_fisher.nodes;/*
     Name:
     Version:
     Author(s):

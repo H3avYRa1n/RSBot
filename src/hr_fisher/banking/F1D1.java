@@ -1,4 +1,4 @@
-package hr_fisher.strategies;/*
+package hr_fisher.banking;/*
     Name:
     Version:
     Author(s):
@@ -9,15 +9,17 @@ package hr_fisher.strategies;/*
 
 import hr_fisher.user.Variables;
 import org.powerbot.core.script.job.Task;
-import org.powerbot.core.script.job.state.Node;
 import org.powerbot.game.api.methods.tab.Inventory;
-import org.powerbot.game.api.methods.widget.DepositBox;
 import org.powerbot.game.api.wrappers.node.Item;
 
-public class F1D1 extends Node {
+public class F1D1 implements BankingMethod {
+    @Override
+    public boolean shouldBank() {
+        return Inventory.getCount(Variables.chosenFishingType.getPossibleFish()) > 0;
+    }
 
     @Override
-    public void execute() {
+    public void bank() {
         Variables.isDropping = true;
         for (Item i : Inventory.getItems()) {
             for (int fish : Variables.chosenFishingType.getPossibleFish()) {
@@ -29,13 +31,5 @@ public class F1D1 extends Node {
             }
         }
         Variables.isDropping = false;
-    }
-
-    @Override
-    public boolean activate() {
-        if (DepositBox.isOpen())
-            return false;
-
-        return Inventory.getCount(Variables.chosenFishingType.getPossibleFish()) > 0;
     }
 }

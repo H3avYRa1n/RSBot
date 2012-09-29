@@ -31,7 +31,7 @@ public class SpiderSlasher extends ActiveScript {
 
         if(jobs == null) {
             // basically you create a tree which holds all the
-            // strategies (now called Nodes)
+            // nodes (now called Nodes)
             jobs = new Tree(new Node[]{
                     new Attack(), new Pickup(), new BankingMethod(),
                     new WalkingToBank(), new WalkingToSpiders()}

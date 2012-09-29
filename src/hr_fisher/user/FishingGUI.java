@@ -1,5 +1,9 @@
 package hr_fisher.user;
 
+import hr_fisher.banking.DropFish;
+import hr_fisher.banking.F1D1;
+import hr_fisher.banking.NormalBank;
+import hr_fisher.banking.UseStiles;
 import hr_fisher.locations.BarbarianAssault;
 import hr_fisher.locations.Karamja;
 import org.powerbot.game.api.methods.tab.Skills;
@@ -50,13 +54,6 @@ public class FishingGUI extends JFrame {
     }
 
     private void startButtonPressed(ActionEvent e) {
-        if (powerFishRadioButton.isSelected())
-            Variables.bankingType = Variables.TYPE_POWERFISH;
-        else if (bankRadioButton.isSelected())
-            Variables.bankingType = Variables.TYPE_BANK;
-        else if (stilesRadioButton.isSelected()) Variables.bankingType = Variables.TYPE_STILES;
-        else Variables.bankingType = Variables.TYPE_F1D1;
-
 
         Variables.dropTuna = dropTunaCheckBox.isSelected();
 
@@ -67,6 +64,13 @@ public class FishingGUI extends JFrame {
         Variables.startXP = Skills.getExperience(Skills.FISHING);
         Variables.fishCaught = new int[Variables.chosenFishingType.getPossibleFish().length];
         Variables.fishPrice = new int[Variables.fishCaught.length];
+
+        if (powerFishRadioButton.isSelected())
+            Variables.chosenLocation.bankingMethod = new DropFish();
+        else if (stilesRadioButton.isSelected())
+            Variables.chosenLocation.bankingMethod = new UseStiles();
+        else if(f1d1RadioButton.isSelected())
+            Variables.chosenLocation.bankingMethod = new F1D1();
 
         for (int i = 0; i < Variables.fishPrice.length; i++) {
             try {
@@ -153,7 +157,7 @@ public class FishingGUI extends JFrame {
         Container contentPane = getContentPane();
 
         //---- headerLabel ----
-        headerLabel.setText("AIO Fisher v1.4.2");
+        headerLabel.setText("AIO Fisher v" + Variables.VERSION);
         headerLabel.setHorizontalAlignment(SwingConstants.CENTER);
         headerLabel.setFont(headerLabel.getFont().deriveFont(headerLabel.getFont().getSize() + 4f));
 
@@ -264,7 +268,7 @@ public class FishingGUI extends JFrame {
             bankRadioButton.setSelected(true);
 
             //---- bankingOptionsLabel ----
-            bankingOptionsLabel.setText("Banking Options");
+            bankingOptionsLabel.setText("BankingMethod Options");
 
             //---- stilesRadioButton ----
             stilesRadioButton.setText("Use Stiles (Karamja Only)");

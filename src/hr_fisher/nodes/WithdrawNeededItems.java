@@ -1,4 +1,4 @@
-package hr_fisher.strategies;/*
+package hr_fisher.nodes;/*
     Name:
     Version:
     Author(s):
@@ -114,6 +114,8 @@ public class WithdrawNeededItems extends Node {
 
     @Override
     public boolean activate() {
-        return Variables.hasStarted && !DepositBox.isOpen() && !Util.hasNeededItems();
+        Entity bank = Bank.getNearest();
+
+        return Variables.hasStarted && bank != null && bank.isOnScreen();
     }
 }

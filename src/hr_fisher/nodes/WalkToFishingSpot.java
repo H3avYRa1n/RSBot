@@ -1,4 +1,4 @@
-package hr_fisher.strategies;/*
+package hr_fisher.nodes;/*
     Name:
     Version:
     Author(s):
@@ -7,17 +7,13 @@ package hr_fisher.strategies;/*
     
 */
 
-import hr_fisher.locations.Karamja;
 import hr_fisher.user.Util;
 import hr_fisher.user.Variables;
-import org.powerbot.core.script.job.Task;
 import org.powerbot.core.script.job.state.Node;
 import org.powerbot.game.api.methods.Calculations;
-import org.powerbot.game.api.methods.Walking;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.tab.Inventory;
 import org.powerbot.game.api.methods.widget.Bank;
-import org.powerbot.game.api.methods.widget.Camera;
 import org.powerbot.game.api.methods.widget.DepositBox;
 import org.powerbot.game.api.wrappers.interactive.NPC;
 

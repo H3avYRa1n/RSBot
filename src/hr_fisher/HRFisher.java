@@ -35,12 +35,17 @@
     September 26, 2012 - v1.4.2 -
         + IMPROVED: Walking method for walking to fishing spot and bank
         + FIXED: Many of the bugs resulting from the change in framework
+        + CHANGED: getLocationName() to toString() in the location class
+
+    September 29, 2012 - v1.5 -
+        + CHANGED: Banking code to an interface and one node instead of many different nodes.
+        + FIXED: Script now correctly drops fish that aren't what are supposed to be caught (along with random event boxes).
 
 */
 
 package hr_fisher;
 
-import hr_fisher.strategies.*;
+import hr_fisher.nodes.*;
 import hr_fisher.user.FishingGUI;
 import hr_fisher.user.FishingPaint;
 import hr_fisher.user.Variables;
@@ -52,7 +57,6 @@ import org.powerbot.core.script.job.state.Node;
 import org.powerbot.core.script.job.state.Tree;
 import org.powerbot.game.api.Manifest;
 import org.powerbot.game.api.util.Random;
-import org.powerbot.game.bot.Context;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,10 +64,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 @Manifest(
-        name = "HR Fisher v1.4.2",
+        name = "HR Fisher v" + Variables.VERSION,
         description = "Fishes almost all types of fish in many different locations.",
         authors = "H3avY Ra1n",
-        version = 1.42,
+        version = Variables.VERSION,
         website = "http://www.powerbot.org/community/topic/793227-hrfisher-aiofisher/"
 )
 
@@ -93,23 +97,10 @@ public class HRFisher extends ActiveScript implements PaintListener, MessageList
 
             if (jobs == null) {
 
-                switch (Variables.bankingType) {
-                    case Variables.TYPE_BANK:
-                        jobs = new Tree(new Node[]{new DepositFish(),  new WalkToBank(),
-                                new WithdrawNeededItems(), new WalkToFishingSpot(), new Fish(), new FixCamera(), new Antiban()});
-                        break;
-                    case Variables.TYPE_POWERFISH:
-                        jobs = new Tree(new Node[]{new FixCamera(), new WithdrawNeededItems(), new WalkToFishingSpot(),
-                                new Fish(), new DropFish(), new FixCamera(), new Antiban()});
-                        break;
-                    case Variables.TYPE_STILES:
-                        jobs = new Tree(new Node[]{new WithdrawNeededItems(), new WalkToFishingSpot(),
-                                new Fish(), new UseStiles(), new FixCamera(), new Antiban()});
-                        break;
-                    default:
-                        jobs = new Tree(new Node[]{new WithdrawNeededItems(), new WalkToFishingSpot(),
-                                new F1D1(), new Fish(), new FixCamera(), new Antiban()});
-                }
+                jobs = new Tree(new Node[]{
+                        new DropUselessItems(), new WithdrawNeededItems(), new Bank(),
+                        new WalkToFishingSpot(), new Fish(), new FixCamera(), new Antiban()
+                });
             }
 
             final Node job = jobs.state();
@@ -143,7 +134,7 @@ public class HRFisher extends ActiveScript implements PaintListener, MessageList
                 Variables.fishCaught[i]++;
             } else if (message.contains("You catch some " + fishNames[i])) {
                 Variables.fishCaught[i]++;
-            } else if(message.contains("Your quick") && message.contains(fishNames[i])) {
+            } else if (message.contains("Your quick") && message.contains(fishNames[i])) {
                 Variables.fishCaught[i] += 2;
             }
         }
