@@ -52,7 +52,7 @@ public class WalkToFishingSpot extends Node {
         return Util.hasNeededItems()
                 && !Inventory.isFull()
                 && Players.getLocal().getAnimation() == -1
-                && (closestFishingSpot == null || !closestFishingSpot.isOnScreen());
+                && (closestFishingSpot == null || !closestFishingSpot.isOnScreen() || Bank.isOpen());
 
     }
 }
