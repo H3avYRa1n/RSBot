@@ -7,6 +7,7 @@ package hr_fisher.nodes;/*
     
 */
 
+import hr_fisher.user.Util;
 import hr_fisher.user.Variables;
 import org.powerbot.core.script.job.state.Node;
 

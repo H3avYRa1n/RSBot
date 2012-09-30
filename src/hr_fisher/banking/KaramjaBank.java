@@ -16,18 +16,16 @@ import org.powerbot.game.api.methods.interactive.NPCs;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.node.SceneEntities;
 import org.powerbot.game.api.methods.tab.Inventory;
+import org.powerbot.game.api.methods.widget.Bank;
 import org.powerbot.game.api.methods.widget.Camera;
+import org.powerbot.game.api.wrappers.Entity;
 import org.powerbot.game.api.wrappers.interactive.NPC;
 import org.powerbot.game.api.wrappers.map.TilePath;
 import org.powerbot.game.api.wrappers.node.SceneObject;
 import org.powerbot.game.api.wrappers.widget.Widget;
 import org.powerbot.game.api.wrappers.widget.WidgetChild;
 
-public class KaramjaBank implements BankingMethod {
-    @Override
-    public boolean shouldBank() {
-        return Variables.hasStarted && (Inventory.isFull() || !Util.hasNeededItems());
-    }
+public class KaramjaBank extends NormalBank {
 
     @Override
     public void bank() {
@@ -94,11 +92,17 @@ public class KaramjaBank implements BankingMethod {
                 Task.sleep(1000, 2000);
             }
 
-            TilePath pathToBank = new TilePath(Karamja.TILES_PORT_SARIM_TO_BANK);
+            Entity bank = Bank.getNearest();
 
-            if (pathToBank != null) {
-                pathToBank.traverse();
-                Task.sleep(1000, 1500);
+            if(bank == null || !bank.isOnScreen()) {
+                TilePath pathToBank = new TilePath(Karamja.TILES_PORT_SARIM_TO_BANK);
+
+                if (pathToBank != null) {
+                    pathToBank.traverse();
+                    Task.sleep(1000, 1500);
+                }
+            } else {
+                super.bank();
             }
         }
     }

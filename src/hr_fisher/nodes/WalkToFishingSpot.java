@@ -31,23 +31,7 @@ public class WalkToFishingSpot extends Node {
         if (!Variables.hasStarted)
             return false;
 
-        if (DepositBox.isOpen()) {
-            int[] fish = Variables.chosenFishingType.getPossibleFish();
-            if (DepositBox.getItemCount(fish) > 0) {
-                return false;
-            }
-
-        }
-
-        if (Bank.isOpen() && Inventory.getCount(Variables.chosenFishingType.getPossibleFish()) > 0)
-            return false;
-
         NPC closestFishingSpot = Util.getClosestFishingSpot();
-
-        if(closestFishingSpot != null && Calculations.distanceTo(closestFishingSpot) < 10)
-        {
-            return false;
-        }
 
         return Util.hasNeededItems()
                 && !Inventory.isFull()

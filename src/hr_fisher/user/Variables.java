@@ -11,17 +11,11 @@ import hr_fisher.locations.*;
 
 public class Variables {
 
-    public static final double VERSION = 1.5;
-
     public static final int[] ITEMS_TO_DROP = new int[]{6961, 6963, 14664};
 
     public static final int ITEM_FEATHER = 314;
     public static final int ITEM_BAIT = 313;
-
-    public static final int TYPE_POWERFISH = 0;
-    public static final int TYPE_BANK = 1;
-    public static final int TYPE_STILES = 2;
-    public static final int TYPE_F1D1 = 3;
+    public static final int ITEM_URN = 20348;
 
     public static final int TUNA_ID = 359;
 
@@ -35,7 +29,6 @@ public class Variables {
     public static int[] fishPrice;
 
     public static int startLevel = 0;
-    public static int bankingType = TYPE_BANK;
 
     public static Location[] locations = new Location[]{
             new AlKharid(),

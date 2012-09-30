@@ -7,6 +7,8 @@ package hr_fisher.user;/*
     
 */
 
+import hr_fisher.banking.DropFish;
+import hr_fisher.banking.F1D1;
 import org.powerbot.game.api.methods.input.Mouse;
 import org.powerbot.game.api.methods.tab.Skills;
 import org.powerbot.game.api.util.Time;
@@ -120,9 +122,11 @@ public class FishingPaint {
         g.drawString("" + curLevel + " (+" + levelsGained + ")", 436, 458);
         g.drawString(formattedTime, 340, 498);
         String profitDisplay = "N/A";
-        if (Variables.bankingType != Variables.TYPE_POWERFISH && Variables.bankingType != Variables.TYPE_F1D1) {
+        if (!(Variables.chosenLocation.bankingMethod instanceof DropFish)
+                && !(Variables.chosenLocation.bankingMethod instanceof F1D1)) {
             profitDisplay = profit + " (" + profitPerHour + "/h)";
         }
+
         g.drawString(profitDisplay, 360, 540);
 
         int mouseX = Mouse.getX();

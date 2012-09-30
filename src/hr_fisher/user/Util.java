@@ -29,7 +29,7 @@ public class Util {
         TYPE_HARPOON_SHARK(new int[]{}, new int[]{383}, new String[]{"shark"}, "Harpoon", "Harpoon (Sharks)"),
         TYPE_LOBSTER_CAGE(new int[]{}, new int[]{377}, new String[]{"lobster"}, "Cage", "Cage Fishing"),
         TYPE_ROCKTAIL_BAIT(new int[]{15263}, new int[]{15270}, new String[]{"rocktail"}, "Bait", "Rocktail Fishing"),
-        TYPE_BARB_FISHING(new int[]{313, 314, 11334,}, new int[]{11328, 11330, 11332}, new String[]{"leaping trout", "leaping salmon", "leaping sturgeon"}, "Use-rod", "Barb Fishing");
+        TYPE_BARB_FISHING(new int[]{}, new int[]{11328, 11330, 11332}, new String[]{"leaping trout", "leaping salmon", "leaping sturgeon"}, "Use-rod", "Barb Fishing");
 
         private int[] itemsNeeded;
         private int[] possibleFish;
@@ -97,6 +97,10 @@ public class Util {
     public static boolean hasNeededItems() {
         if (Variables.chosenFishingType.getNeededItems().length > 0)
             return Inventory.containsAll(Variables.chosenFishingType.getNeededItems());
+
+        if(Variables.chosenFishingType == FishingTypes.TYPE_BARB_FISHING) {
+            return Inventory.containsOneOf(313, 314, 11334);
+        }
 
         return true;
     }

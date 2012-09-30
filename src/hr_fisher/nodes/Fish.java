@@ -26,7 +26,7 @@ public class Fish extends Node {
     public void execute() {
         NPC closestFishingSpot = Util.getClosestFishingSpot();
 
-        if (closestFishingSpot != null && Calculations.distanceTo(closestFishingSpot.getLocation()) < 20) {
+        if (closestFishingSpot != null) {
             if (closestFishingSpot.isOnScreen()) {
                 closestFishingSpot.interact(Variables.chosenFishingType.getInteractString());
                 Task.sleep(1000);

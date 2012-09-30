@@ -41,6 +41,12 @@
         + CHANGED: Banking code to an interface and one node instead of many different nodes.
         + FIXED: Script now correctly drops fish that aren't what are supposed to be caught (along with random event boxes).
 
+    September 29, 2012 - v1.5.1 -
+        + FIXED: Banking in Piscatoris Fishing Colony, along with fishing in a different spot.
+
+    September 29, 2012 - v1.5.2 -
+        + FIXED: Fishing at Barbarian Assault.
+
 */
 
 package hr_fisher;
@@ -64,10 +70,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 @Manifest(
-        name = "HR Fisher v" + Variables.VERSION,
+        name = "HR Fisher v1.5.2",
         description = "Fishes almost all types of fish in many different locations.",
         authors = "H3avY Ra1n",
-        version = Variables.VERSION,
+        version = 1.52,
         website = "http://www.powerbot.org/community/topic/793227-hrfisher-aiofisher/"
 )
 
@@ -98,8 +104,8 @@ public class HRFisher extends ActiveScript implements PaintListener, MessageList
             if (jobs == null) {
 
                 jobs = new Tree(new Node[]{
-                        new DropUselessItems(), new WithdrawNeededItems(), new Bank(),
-                        new WalkToFishingSpot(), new Fish(), new FixCamera(), new Antiban()
+                        new DropUselessItems(), new Bank(),
+                        new WalkToFishingSpot(), new Fish(), new FixCamera(), new Antiban(), new Urns()
                 });
             }
 
