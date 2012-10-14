@@ -33,6 +33,9 @@ public class WalkToFishingSpot extends Node {
 
         NPC closestFishingSpot = Util.getClosestFishingSpot();
 
+        if(Bank.isOpen() && Inventory.getCount(true, Variables.chosenFishingType.getPossibleFish())> 0)
+            return false;
+
         return Util.hasNeededItems()
                 && !Inventory.isFull()
                 && Players.getLocal().getAnimation() == -1

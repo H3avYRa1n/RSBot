@@ -157,7 +157,7 @@ public class FishingGUI extends JFrame {
         Container contentPane = getContentPane();
 
         //---- headerLabel ----
-        headerLabel.setText("AIO Fisher v1.5.2");
+        headerLabel.setText("AIO Fisher v1.5.5");
         headerLabel.setHorizontalAlignment(SwingConstants.CENTER);
         headerLabel.setFont(headerLabel.getFont().deriveFont(headerLabel.getFont().getSize() + 4f));
 

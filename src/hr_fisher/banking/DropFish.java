@@ -34,7 +34,6 @@ public class DropFish implements BankingMethod {
                     if (i.getId() == fish) {
 
                         i.getWidgetChild().interact("Drop");
-                        Task.sleep(100, 150);
                         break;
                     }
                 }

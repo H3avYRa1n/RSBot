@@ -20,15 +20,16 @@ import java.net.URL;
 
 public class FishingPaint {
 
-    public static final String IMAGE_LOCATION = "http://i50.tinypic.com/osu5vd.jpg";
+    //public static final String IMAGE_LOCATION = "http://i50.tinypic.com/osu5vd.jpg";
+    public static final String IMAGE_LOCATION = "http://i50.tinypic.com/28lxa1s.png";
 
     public static Image img = null;
     public static boolean shouldHide = false;
 
-    public static final int X_BEGIN = 448;
-    public static final int Y_BEGIN = 405;
+    public static final int X_BEGIN = 440;
+    public static final int Y_BEGIN = 383;
 
-    public static final Rectangle HIDE_BUTTON = new Rectangle(448, 405, 60, 15);
+    public static final Rectangle HIDE_BUTTON = new Rectangle(X_BEGIN, Y_BEGIN, 60, 15);
 
     public static void setupImage() {
         try {
@@ -45,15 +46,16 @@ public class FishingPaint {
         g.setColor(Color.white);
 
         if (shouldHide) {
-            g.drawString("Show", X_BEGIN + 5, Y_BEGIN + 5);
+            g.drawString("Show", X_BEGIN + 5, Y_BEGIN + 15);
             return;
         }
 
-        g.drawImage(img, 3, 390, null);
-        g.drawString("Hide", X_BEGIN + 5, Y_BEGIN + 5);
+        g.drawImage(img, 0, 320, null);
+        //g.drawString("Hide", X_BEGIN + 5, Y_BEGIN + 5);
 
-        g.setColor(new Color(0, 252, 255));
-        g.setFont(new Font("Serif", Font.PLAIN, 22));
+        //g.drawRect((int)HIDE_BUTTON.getX(), (int)HIDE_BUTTON.getY(), (int)HIDE_BUTTON.getWidth(), (int)HIDE_BUTTON.getHeight());
+        g.setColor(Color.white);
+        g.setFont(new Font("Serif", Font.PLAIN, 24));
 
         long totalTime = System.currentTimeMillis() - Variables.startTime;
 
@@ -71,7 +73,7 @@ public class FishingPaint {
                         (minutes < 10 ? "0" : "") + minutes + ":" +
                         (seconds < 10 ? "0" : "") + seconds;
 
-        g.drawString(formattedTime, 162, 461);
+        g.drawString(formattedTime, 162, 425);
 
         int XPGained = Skills.getExperience(Skills.FISHING) - Variables.startXP;
         int fishCaught = 0;
@@ -117,17 +119,18 @@ public class FishingPaint {
         double profitPerMillisecond = profit * 1.0 / totalTime;
         int profitPerHour = (int) (profitPerMillisecond * 3600 * 1000);
 
-        g.drawString("" + XPGained + " (" + xpPerHour + "/h)", 143, 500);
-        g.drawString("" + fishCaught + " (" + fishPerHour + "/h)", 149, 540);
-        g.drawString("" + curLevel + " (+" + levelsGained + ")", 436, 458);
-        g.drawString(formattedTime, 340, 498);
+        g.drawString("" + XPGained, 143, 456);
+        g.drawString("" + xpPerHour, 120, 488);
+        g.drawString("" + fishCaught + " (" + fishPerHour + "/h)", 149, 515);
+        g.drawString("" + curLevel + " (+" + levelsGained + ")", 410, 425);
+        g.drawString(formattedTime, 325, 456);
         String profitDisplay = "N/A";
-        if (!(Variables.chosenLocation.bankingMethod instanceof DropFish)
-                && !(Variables.chosenLocation.bankingMethod instanceof F1D1)) {
-            profitDisplay = profit + " (" + profitPerHour + "/h)";
-        }
+        boolean noProfit = Variables.chosenLocation.bankingMethod instanceof DropFish
+        || Variables.chosenLocation.bankingMethod instanceof F1D1;
 
-        g.drawString(profitDisplay, 360, 540);
+
+        g.drawString(noProfit ? "N/A" : ("" + profit), 360, 486);
+        g.drawString(noProfit ? "N/A" : ("" + profitPerHour), 378, 517);
 
         int mouseX = Mouse.getX();
         int mouseY = Mouse.getY();

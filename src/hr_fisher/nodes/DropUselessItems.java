@@ -29,7 +29,7 @@ public class DropUselessItems extends Node {
                 continue;
 
             for(int id : type.getPossibleFish()) {
-                if(Inventory.getCount(true, id) > 0)
+                if(Inventory.getCount(true, new int[]{id}) > 0)
                 {
                     found = true;
                     break;

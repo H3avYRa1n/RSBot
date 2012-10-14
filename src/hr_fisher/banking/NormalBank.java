@@ -19,14 +19,15 @@ public class NormalBank implements BankingMethod {
 
     public boolean shouldBank() {
 
-        return Variables.hasStarted && (Inventory.isFull() || !Util.hasNeededItems());
+        return Variables.hasStarted && (Inventory.isFull() || !Util.hasNeededItems()
+        || (Bank.isOpen() && Inventory.getCount(true, Variables.chosenFishingType.getPossibleFish()) > 0));
     }
 
     @Override
     public void bank() {
         Entity bank = Bank.getNearest();
 
-        if(bank == null || !bank.isOnScreen()) {
+        if (bank == null || !bank.isOnScreen()) {
             TilePath pathToBank = new TilePath(Variables.chosenLocation.tilesToBank);
 
             if (pathToBank != null) {
@@ -37,11 +38,9 @@ public class NormalBank implements BankingMethod {
             if (!Bank.isOpen()) {
                 Bank.open();
             } else {
-                for (Util.FishingTypes fishingTypes : Util.FishingTypes.values()) {
-                    int[] itemsToDeposit = fishingTypes.getPossibleFish();
-                    for (int i : itemsToDeposit) {
-                        Bank.deposit(i, Inventory.getCount(i));
-                    }
+                int[] itemsToDeposit = Variables.chosenFishingType.getPossibleFish();
+                for (int i : itemsToDeposit) {
+                    Bank.deposit(i, Inventory.getCount(i));
                 }
             }
         }

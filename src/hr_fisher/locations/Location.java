@@ -5,6 +5,7 @@ import hr_fisher.banking.NormalBank;
 import hr_fisher.user.Util;
 import org.powerbot.core.script.job.Task;
 import org.powerbot.game.api.methods.Calculations;
+import org.powerbot.game.api.methods.widget.Camera;
 import org.powerbot.game.api.wrappers.Tile;
 import org.powerbot.game.api.wrappers.interactive.NPC;
 import org.powerbot.game.api.wrappers.map.TilePath;
@@ -38,9 +39,8 @@ public class Location {
     public void walkToFishingSpot() {
         NPC closestFishingSpot = Util.getClosestFishingSpot();
 
-        if (closestFishingSpot != null && closestFishingSpot.isOnScreen()
-                && Calculations.distanceTo(closestFishingSpot) < 5) {
-            return;
+        if(closestFishingSpot != null && Calculations.distanceTo(closestFishingSpot) < 10) {
+            Camera.turnTo(closestFishingSpot);
         }
 
         TilePath pathToBank = new TilePath(tilesToBank);

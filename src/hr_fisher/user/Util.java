@@ -69,13 +69,13 @@ public class Util {
     public static void depositAll() {
         Item[] items = Inventory.getItems();
         for (Item i : items) {
-            Bank.deposit(i.getId(), Inventory.getCount(true, i.getId()));
+            Bank.deposit(i.getId(), Inventory.getCount(true, new int[]{i.getId()}));
 
             final Item temp = i;
             waitFor(3000, new Condition() {
                 @Override
                 public boolean validate() {
-                    return Inventory.getCount(true, temp.getId()) == 0;
+                    return Inventory.getCount(true, new int[]{temp.getId()}) == 0;
                 }
             });
         }
@@ -99,7 +99,7 @@ public class Util {
             return Inventory.containsAll(Variables.chosenFishingType.getNeededItems());
 
         if(Variables.chosenFishingType == FishingTypes.TYPE_BARB_FISHING) {
-            return Inventory.containsOneOf(313, 314, 11334);
+            return Inventory.contains(313, 314, 11334);
         }
 
         return true;
@@ -172,7 +172,7 @@ public class Util {
                             return false;
 
                         } else if (Variables.chosenFishingType == Util.FishingTypes.TYPE_HARPOON_TUNA) {
-                            if (npc.getId() == 320 || npc.getId() == 312 || npc.getId() == 324)
+                            if (npc.getId() == 320 || npc.getId() == 321 || npc.getId() == 312 || npc.getId() == 324)
                                 return true;
 
                             return false;

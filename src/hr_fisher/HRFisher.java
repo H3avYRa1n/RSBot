@@ -47,6 +47,17 @@
     September 29, 2012 - v1.5.2 -
         + FIXED: Fishing at Barbarian Assault.
 
+    September 30, 2012 - v.1.5.3 -
+        + FIXED: Banking and getting stuck at some locations.
+
+    October 15, 2012
+        - v1.5.4 -
+            + CHANGED: Paint shown while fishing. (Thanks to naigel)
+
+        - v1.5.5 -
+            + FIXED: Script not fishing swordfish at catherby
+
+
 */
 
 package hr_fisher;
@@ -70,10 +81,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 @Manifest(
-        name = "HR Fisher v1.5.2",
+        name = "HR Fisher v1.5.5",
         description = "Fishes almost all types of fish in many different locations.",
         authors = "H3avY Ra1n",
-        version = 1.52,
+        version = 1.55,
         website = "http://www.powerbot.org/community/topic/793227-hrfisher-aiofisher/"
 )
 
